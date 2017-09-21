@@ -1,2 +1,150 @@
 {% extends 'OnlineJudgeApp/base.htm' %}
-{% block title %}Home{% endblock %}
+{% block title %}Contests{% endblock %}
+{% block content %}
+<div class="container">
+	<table style="width:100%">
+		<thead>
+			<tr>
+				<td><i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> Current/Upcoming Contests</strong><hr></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<div class="row"  style="padding-left: 10%;margin-bottom: 16px;">
+						<div class="col-md-3">
+							<strong>Name</strong>
+						</div>
+						<div class="col-md-3">
+							<strong>Start</strong>
+						</div>
+						<div class="col-md-3">
+							<strong>End</strong>
+						</div>
+						<div class="col-md-3">
+							<strong>Registration</strong>
+						</div>
+						
+						<div class="col-md-3">
+							Round 5
+						</div>
+						<div class="col-md-3">
+							Aug/05/2017, 18:30
+						</div>
+						<div class="col-md-3">
+							Aug/05/2017, 20:30
+						</div>
+						<div class="col-md-3">
+							<a href="{% url 'problems' 5 %}">Enter</a>
+						</div>
+						<div class="col-md-3">
+							Round 6
+						</div>
+						<div class="col-md-3">
+							Aug/06/2017, 18:30
+						</div>
+						<div class="col-md-3">
+							Aug/06/2017, 20:30
+						</div>
+						<div class="col-md-3">
+							Registered
+						</div>
+
+						<div class="col-md-3">
+							Round 7
+						</div>
+						<div class="col-md-3">
+							Aug/07/2017, 18:30
+						</div>
+						<div class="col-md-3">
+							Aug/07/2017, 20:30
+						</div>
+						<div class="col-md-3">
+							<a href="#">Register</a>
+						</div>
+					</div>
+				</td>			
+			</tr>
+		</tbody>
+	</table>
+	<table style="width:100%">
+		<thead>
+			<tr>
+				<td><i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> Past Contests</strong><hr></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<div class="row"  style="padding-left: 10%;margin-bottom: 16px;">
+						<div class="col-md-3">
+							<strong>Name</strong>
+						</div>
+						<div class="col-md-3">
+							<strong>Start</strong>
+						</div>
+						<div class="col-md-3">
+							<strong>End</strong>
+						</div>
+						<div class="col-md-3">
+							<strong>Standings</strong>
+						</div>
+						<div class="col-md-3">
+							Round 4
+						</div>
+						<div class="col-md-3">
+							Aug/04/2017, 18:30
+						</div>
+						<div class="col-md-3">
+							Aug/04/2017, 20:30
+						</div>
+						<div class="col-md-3">
+							<a href="{% url 'standings' 4 %}">Standings</a> (5/2167)
+						</div>
+
+						<div class="col-md-3">
+							Round 3
+						</div>
+						<div class="col-md-3">
+							Aug/03/2017, 18:30
+						</div>
+						<div class="col-md-3">
+							Aug/03/2017, 20:30
+						</div>
+						<div class="col-md-3">
+							<a href="#">Standings</a>
+						</div>
+						
+						<div class="col-md-3">
+							Round 2
+						</div>
+						<div class="col-md-3">
+							Aug/02/2017, 18:30
+						</div>
+						<div class="col-md-3">
+							Aug/02/2017, 20:30
+						</div>
+						<div class="col-md-3">
+							<a href="#">Standings</a> (2/1687)
+						</div>
+						<div class="col-md-3">
+							Round 1
+						</div>
+						<div class="col-md-3">
+							Aug/01/2017, 18:30
+						</div>
+						<div class="col-md-3">
+							Aug/01/2017, 20:30
+						</div>
+						<div class="col-md-3">
+							<a href="#">Standings</a>
+						</div>
+						
+					</div>
+				</td>			
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+{% endblock %}

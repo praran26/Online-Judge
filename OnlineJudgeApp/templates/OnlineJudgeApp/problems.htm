@@ -1,0 +1,238 @@
+{% extends 'OnlineJudgeApp/base.htm' %}
+{% block title %}Contests{% endblock %}
+{% block content %}
+<div class="container">
+	<h1 class="text-center">
+		Contest #5 
+	</h1>
+	<ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link active" id="problem-A-pill" data-toggle="pill" href="#problem-A" role="tab" aria-controls="problem-A" aria-expanded="true">Problem A</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="problem-B-pill" data-toggle="pill" href="#problem-B" role="tab" aria-controls="problem-B" aria-expanded="true">Problem B</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="problem-C-pill" data-toggle="pill" href="#problem-C" role="tab" aria-controls="problem-C" aria-expanded="true">Problem C</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="problem-D-pill" data-toggle="pill" href="#problem-D" role="tab" aria-controls="problem-D" aria-expanded="true">Problem D</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="problem-E-pill" data-toggle="pill" href="#problem-E" role="tab" aria-controls="problem-E" aria-expanded="true">Problem E</a>
+		</li>
+	</ul>
+	<div class="tab-content" id="pills-tabContent">
+		<div class="tab-pane fade show active" id="problem-A" role="tabpanel" aria-labelledby="problem-A-pill">
+			<div style="text-align: center;">
+				<strong>A. Hello, World!</strong><br>
+				TL: 1 second<br>
+				ML: 64 MB<br>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam accumsan erat vitae fermentum ultrices. Integer aliquet massa vitae rutrum aliquet. Maecenas mollis auctor ullamcorper. Cras a purus nec diam feugiat finibus id ac urna. Morbi in orci viverra, pellentesque nulla eget, pharetra tellus. Quisque pulvinar fringilla laoreet. Fusce ut magna a erat laoreet tristique quis non purus. Aliquam tristique nec nisl et tincidunt. Donec quis vulputate massa, sed iaculis nisi. Etiam tempor enim ac turpis condimentum, eu congue nulla semper. Fusce gravida sagittis risus sed bibendum. Nulla a elit quis tellus malesuada finibus. Donec venenatis ligula non nisi malesuada condimentum. Morbi tristique sollicitudin libero.</p>
+
+					<p>Nullam vel egestas purus, vitae mattis tellus. Integer gravida turpis at nisi lobortis interdum. Quisque eu facilisis risus, eget tincidunt sem. Mauris non faucibus augue. Pellentesque vitae porttitor arcu. Pellentesque suscipit, mi sit amet congue cursus, ante lorem congue felis, eget feugiat nibh ipsum non mauris. Vivamus vel velit dui. Nulla auctor laoreet sapien, ut pulvinar risus. Morbi rutrum eros iaculis convallis varius.</p>
+					<h6>
+						<strong>Constraints:</strong>
+					</h6>
+					1<=T<=3<br>
+					1<=N<=10000000<br>
+					1<=K<=1000000000000000000
+					<h6>
+						<strong>Input format:</strong>
+					</h6>
+					The first line of input contains a single integer T, the number of test cases.<br>
+					Each of the next T lines contain two integers, N and K, corresponding to each test case.
+					<h6>
+						<strong>Output format:</strong>
+					</h6>
+					For each test case, output the required sum modulo 1000000007 in a separate line.					
+				</div>
+				<div class="col-md-4">
+					<form style="width:100%;margin: auto;">
+						<div class="form-group">
+							<select class="form-control" id="compiler">
+								<option>GNU GCC 5.1.0</option>
+								<option>GNU GCC C11 5.1.0</option>
+								<option>GNU G++ 5.1.0</option>
+								<option>GNU G++14 6.2.0</option>
+								<option>Go 1.7.3</option>
+								<option>Java 1.8.0_112</option>
+								<option>Free Pascal 2.6.4</option>
+								<option>Python 2.7.13</option>
+								<option>Python 3.6.2</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="custom-file">
+								<input type="file" id="file" class="custom-file-input">
+								<span class="custom-file-control"></span>
+							</label>
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Submit</button>		
+						</div>
+					</form>
+					<div class="submissions">
+						<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> Submissions</strong>
+						<hr>
+						<small>
+						<div class="row">
+							<div class="col-md-4"><a href="#">30103322</a></div>
+							<div class="col-md-5">Aug 5, 2017 18:34</div>
+							<div class="col-md-3"><span class="text-success">AC</span></div>							
+						</div>
+						<div class="row">
+							<div class="col-md-4"><a href="#">30103305</a></div>
+							<div class="col-md-5">Aug 5, 2017 18:33</div>
+							<div class="col-md-3"><span class="text-secondary">Running</span></div>							
+						</div>
+						<div class="row">
+							<div class="col-md-4"><a href="#">30103291</a></div>
+							<div class="col-md-5">Aug 5, 2017 18:32</div>
+							<div class="col-md-3"><span class="text-danger">WA</span></div>							
+						</div>
+						</small> 
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade" id="problem-B" role="tabpanel" aria-labelledby="problem-B-pill">
+			<div style="text-align: center;">
+				<strong>B. Tic-tac-toe</strong><br>
+				TL: 1 second<br>
+				ML: 128 MB<br>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue gravida felis commodo molestie. Cras interdum in felis at ultricies. Quisque luctus risus quis lectus tempor, nec sollicitudin sem ultrices. Suspendisse et est sapien. Suspendisse ac efficitur ex. Nullam commodo elit sed ante facilisis, nec accumsan metus rhoncus. Aliquam viverra ligula nec urna consectetur malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent sed hendrerit tortor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse quis bibendum orci, sed posuere ligula. Donec posuere facilisis egestas.</p>
+
+					<p>Integer in ultrices odio. Nulla facilisi. Nunc consectetur tempus fermentum. Praesent felis quam, facilisis id ligula eu, pulvinar pretium mi. Proin ac gravida lectus, eget finibus purus. Phasellus congue nunc vitae nisi vehicula ullamcorper. Donec eget tempor orci. Aliquam eu lacus ligula. Vestibulum mattis, velit in condimentum volutpat, tellus tortor condimentum ex, a ultrices arcu ipsum id lacus.</p>
+					<h6>
+						<strong>Constraints:</strong>
+					</h6>
+					1<=T<=3<br>
+					1<=N<=10000000<br>
+					1<=K<=1000000000000000000
+					<h6>
+						<strong>Input format:</strong>
+					</h6>
+					The first line of input contains a single integer T, the number of test cases.<br>
+					Each of the next T lines contain two integers, N and K, corresponding to each test case.
+					<h6>
+						<strong>Output format:</strong>
+					</h6>
+					For each test case, output the required sum modulo 1000000007 in a separate line.					
+				</div>
+				<div class="col-md-4">
+					<form style="width:100%;margin: auto;">
+						<div class="form-group">
+							<select class="form-control" id="compiler">
+								<option>GNU GCC 5.1.0</option>
+								<option>GNU GCC C11 5.1.0</option>
+								<option>GNU G++ 5.1.0</option>
+								<option>GNU G++14 6.2.0</option>
+								<option>Go 1.7.3</option>
+								<option>Java 1.8.0_112</option>
+								<option>Free Pascal 2.6.4</option>
+								<option>Python 2.7.13</option>
+								<option>Python 3.6.2</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="custom-file">
+								<input type="file" id="file" class="custom-file-input">
+								<span class="custom-file-control"></span>
+							</label>
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Submit</button>		
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade" id="problem-C" role="tabpanel" aria-labelledby="problem-C-pill">
+			<div style="text-align: center;">
+				<strong>C. Permutations</strong><br>
+				TL: 2 second<br>
+				ML: 256 MB<br>
+			</div>	
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam accumsan erat vitae fermentum ultrices. Integer aliquet massa vitae rutrum aliquet. Maecenas mollis auctor ullamcorper. Cras a purus nec diam feugiat finibus id ac urna. Morbi in orci viverra, pellentesque nulla eget, pharetra tellus. Quisque pulvinar fringilla laoreet. Fusce ut magna a erat laoreet tristique quis non purus. Aliquam tristique nec nisl et tincidunt. Donec quis vulputate massa, sed iaculis nisi. Etiam tempor enim ac turpis condimentum, eu congue nulla semper. Fusce gravida sagittis risus sed bibendum. Nulla a elit quis tellus malesuada finibus. Donec venenatis ligula non nisi malesuada condimentum. Morbi tristique sollicitudin libero.</p>
+
+			<p>Nullam vel egestas purus, vitae mattis tellus. Integer gravida turpis at nisi lobortis interdum. Quisque eu facilisis risus, eget tincidunt sem. Mauris non faucibus augue. Pellentesque vitae porttitor arcu. Pellentesque suscipit, mi sit amet congue cursus, ante lorem congue felis, eget feugiat nibh ipsum non mauris. Vivamus vel velit dui. Nulla auctor laoreet sapien, ut pulvinar risus. Morbi rutrum eros iaculis convallis varius.</p>
+			<h6>
+				<strong>Constraints:</strong>
+			</h6>
+			1<=T<=3<br>
+			1<=N<=10000000<br>
+			1<=K<=1000000000000000000
+			<h6>
+				<strong>Input format:</strong>
+			</h6>
+			The first line of input contains a single integer T, the number of test cases.<br>
+			Each of the next T lines contain two integers, N and K, corresponding to each test case.
+			<h6>
+				<strong>Output format:</strong>
+			</h6>
+			For each test case, output the required sum modulo 1000000007 in a separate line.
+
+		</div>
+		<div class="tab-pane fade" id="problem-D" role="tabpanel" aria-labelledby="problem-D-pill">
+			<div style="text-align: center;">
+				<strong>D. Shortest Path</strong><br>
+				TL: 2 second<br>
+				ML: 256 MB<br>
+			</div>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam accumsan erat vitae fermentum ultrices. Integer aliquet massa vitae rutrum aliquet. Maecenas mollis auctor ullamcorper. Cras a purus nec diam feugiat finibus id ac urna. Morbi in orci viverra, pellentesque nulla eget, pharetra tellus. Quisque pulvinar fringilla laoreet. Fusce ut magna a erat laoreet tristique quis non purus. Aliquam tristique nec nisl et tincidunt. Donec quis vulputate massa, sed iaculis nisi. Etiam tempor enim ac turpis condimentum, eu congue nulla semper. Fusce gravida sagittis risus sed bibendum. Nulla a elit quis tellus malesuada finibus. Donec venenatis ligula non nisi malesuada condimentum. Morbi tristique sollicitudin libero.</p>
+
+			<p>Nullam vel egestas purus, vitae mattis tellus. Integer gravida turpis at nisi lobortis interdum. Quisque eu facilisis risus, eget tincidunt sem. Mauris non faucibus augue. Pellentesque vitae porttitor arcu. Pellentesque suscipit, mi sit amet congue cursus, ante lorem congue felis, eget feugiat nibh ipsum non mauris. Vivamus vel velit dui. Nulla auctor laoreet sapien, ut pulvinar risus. Morbi rutrum eros iaculis convallis varius.</p>
+			<h6>
+				<strong>Constraints:</strong>
+			</h6>
+			1<=T<=3<br>
+			1<=N<=10000000<br>
+			1<=K<=1000000000000000000
+			<h6>
+				<strong>Input format:</strong>
+			</h6>
+			The first line of input contains a single integer T, the number of test cases.<br>
+			Each of the next T lines contain two integers, N and K, corresponding to each test case.
+			<h6>
+				<strong>Output format:</strong>
+			</h6>
+			For each test case, output the required sum modulo 1000000007 in a separate line.
+
+		</div>
+		<div class="tab-pane fade" id="problem-E" role="tabpanel" aria-labelledby="problem-E-pill">
+			<div style="text-align: center;">
+				<strong>E. Maximum flow</strong><br>
+				TL: 4 second<br>
+				ML: 512 MB<br>
+			</div>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam accumsan erat vitae fermentum ultrices. Integer aliquet massa vitae rutrum aliquet. Maecenas mollis auctor ullamcorper. Cras a purus nec diam feugiat finibus id ac urna. Morbi in orci viverra, pellentesque nulla eget, pharetra tellus. Quisque pulvinar fringilla laoreet. Fusce ut magna a erat laoreet tristique quis non purus. Aliquam tristique nec nisl et tincidunt. Donec quis vulputate massa, sed iaculis nisi. Etiam tempor enim ac turpis condimentum, eu congue nulla semper. Fusce gravida sagittis risus sed bibendum. Nulla a elit quis tellus malesuada finibus. Donec venenatis ligula non nisi malesuada condimentum. Morbi tristique sollicitudin libero.</p>
+
+			<p>Nullam vel egestas purus, vitae mattis tellus. Integer gravida turpis at nisi lobortis interdum. Quisque eu facilisis risus, eget tincidunt sem. Mauris non faucibus augue. Pellentesque vitae porttitor arcu. Pellentesque suscipit, mi sit amet congue cursus, ante lorem congue felis, eget feugiat nibh ipsum non mauris. Vivamus vel velit dui. Nulla auctor laoreet sapien, ut pulvinar risus. Morbi rutrum eros iaculis convallis varius.</p>
+			<h6>
+				<strong>Constraints:</strong>
+			</h6>
+			1<=T<=3<br>
+			1<=N<=10000000<br>
+			1<=K<=1000000000000000000
+			<h6>
+				<strong>Input format:</strong>
+			</h6>
+			The first line of input contains a single integer T, the number of test cases.<br>
+			Each of the next T lines contain two integers, N and K, corresponding to each test case.
+			<h6>
+				<strong>Output format:</strong>
+			</h6>
+			For each test case, output the required sum modulo 1000000007 in a separate line.
+
+		</div>
+
+	</div>
+</div>
+{% endblock %}
