@@ -67,11 +67,32 @@ form, .submissions {
   border-radius: 5px;
 }
 
-.user {
+.user-red, .user-red:hover, .user-red:focus {
+  color: red;
+}
+
+.user-orange, .user-orange:hover, .user-orange:focus {
+  color: #FF8C00;
+}
+
+.user-violet, .user-violet:hover, .user-violet:focus {
   color: #a0a;
 }
 
-.user:hover, .user:focus{
-  color: #a0a;
-  
+.user-blue, .user-blue:hover, .user-blue:focus {
+  color: blue;
 }
+
+.user-cyan, .user-cyan:hover, .user-cyan:focus {
+  color: #03A89E;
+}
+
+.user-green, .user-green:hover, .user-green:focus {
+  color: green;
+}
+
+.user-gray, .user-gray:hover, .user-gray:focus {
+  color: gray;
+}
+
+
