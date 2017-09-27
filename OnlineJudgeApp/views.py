@@ -19,8 +19,12 @@ def standings(request,pk):
 def problems(request,pk):
 	return render(request, 'OnlineJudgeApp/problems.htm',{})
 def add_blog(request):
-	return render(request, 'OnlineJudgeApp/add_blog',{})
+	return render(request, 'OnlineJudgeApp/add_blog.htm',{})
 def add_problem(request):
-	return render(request, 'OnlineJudgeApp/add_problem',{})
+	return render(request, 'OnlineJudgeApp/add_problem.htm',{})
 def add_contest(request):
-	return render(request, 'OnlineJudgeApp/add_contest',{})
+	return render(request, 'OnlineJudgeApp/add_contest.htm',{})
+def user(request,user_id):
+	return render(request, 'OnlineJudgeApp/user.htm',{})
+def blog(request,blog_id):
+	return render(request, 'OnlineJudgeApp/blog.htm',{})

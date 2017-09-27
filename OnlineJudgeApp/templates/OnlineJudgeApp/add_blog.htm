@@ -1,0 +1,27 @@
+{% extends 'OnlineJudgeApp/base.htm' %}
+{% block title %}Add Blog{% endblock %}
+{% block content %}
+<div class="container">
+	<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;">
+		<div class="form-group row">
+			<label for="blog-title" class="col-sm-4 col-form-label">Title</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="blog-title" required>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="blog-content" class="col-sm-4 col-form-label">Content</label>
+			<div class="col-sm-8">
+				<textarea class="form-control" id="blog-content" rows="5" required></textarea>
+
+				<small class="form-text text-muted">
+					You may use LaTeX for rendering mathematical symbols by enclosing between $.
+				</small>
+			</div>
+		</div>
+		<div class="text-center">
+			<button type="submit" class="btn btn-primary">Post blog</button>		
+		</div>
+	</form>
+</div>
+{% endblock %}

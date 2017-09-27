@@ -1,0 +1,44 @@
+{% extends 'OnlineJudgeApp/base.htm' %}
+{% block title %}Add Contest{% endblock %}
+{% block content %}
+<div class="container">
+	<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" method="POST">
+		 {% csrf_token %}
+		<div class="form-group row">
+			<label for="contest-duration" class="col-sm-4 col-form-label">Contest Duration</label>
+			<div class="col-sm-8">
+				<input type="number" class="form-control" id="contest-duration" required min="60" max="180" step="5">
+				<small class="form-text text-muted">
+					(in minutes)
+				</small>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="contest-problems" class="col-sm-4 col-form-label">Select 5 problems</label>
+			<div class="col-sm-8">
+				<select multiple class="form-control" id="contest-problems" name="problems">
+					<option value="1">Alpha</option>
+					<option value="2">Beta</option>
+					<option value="3">Gamma</option>
+					<option value="4">Delta</option>
+					<option value="5">Epsilon</option>
+					<option value="6">Omega</option>
+					<option value="7">Theta</option>
+					<option value="8">Lambda</option>
+				</select>				
+			</div>
+		</div>
+		<div class="text-center">
+			<button type="submit" class="btn btn-primary" id="submit-button">Propose contest</button>	
+		</div>
+	</form>
+</div>
+{% endblock %}
+{% block customjs %}
+<script type="text/javascript">
+	$('#submit-button').click(function () {
+		counter=$("select option:selected").length;
+		if(counter!=5)return false;
+	});	
+</script>
+{% endblock %}

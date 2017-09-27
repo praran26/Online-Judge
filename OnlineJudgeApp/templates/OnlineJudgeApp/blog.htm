@@ -1,0 +1,105 @@
+{% extends 'OnlineJudgeApp/base.htm' %}
+{% block title %}Contests{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-9">
+			<p>
+				<h3 style="color: #444">[Tutorial] Centroid Decomposition</h3>
+				<span>By <span class="user-orange">praran26</span>, 5 days ago</span>
+			</p>
+			<blockquote class="blockquote" style="font-size: 1rem;">
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas est ac risus imperdiet dignissim. Ut accumsan placerat pretium. Quisque id sem sit amet risus tincidunt posuere. Cras leo sem, commodo sit amet efficitur et, convallis eu sem. Mauris fermentum non libero et tempus. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam et porttitor mi, non sodales dolor. Duis fringilla augue eget ipsum rhoncus pulvinar. Aenean venenatis arcu in est tincidunt eleifend. In ultricies mi dui. Curabitur id ex non mauris maximus molestie. Nunc vulputate nunc accumsan risus placerat, ut laoreet nisi aliquet. Nullam aliquam libero mauris, vitae consequat sem vestibulum sed. In bibendum leo eget felis placerat, dictum ullamcorper dolor rhoncus.
+				</p>
+				<p>
+					Ut justo nisl, varius ut consequat ac, imperdiet non sem. Nulla tempor porta quam eu lacinia. Integer sagittis lacinia orci id tincidunt. Ut id orci feugiat, condimentum metus a, sagittis velit. Nunc aliquam quis lorem et ornare. Etiam bibendum eleifend erat id malesuada. In volutpat ultrices accumsan. Nulla sagittis quam augue, ut pharetra purus iaculis sed. Vestibulum luctus eros a ultricies convallis. Sed eu ligula ac risus ornare vehicula. Integer fermentum erat id augue accumsan molestie.
+				</p>
+				<p>
+					Curabitur laoreet gravida interdum. Proin nec sapien quis erat commodo iaculis. Nam posuere ex vitae mauris convallis, condimentum accumsan orci commodo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra maximus mi eu tincidunt. Curabitur elementum ultricies orci, vitae dapibus nulla fringilla in. Pellentesque suscipit est vitae nunc dignissim accumsan eget eu turpis.
+				</p>
+				<p>
+					Suspendisse elementum dui a elit vehicula volutpat. Aenean luctus venenatis diam a iaculis. Fusce sapien tortor, tincidunt in dolor nec, tincidunt congue neque. Integer interdum purus odio. Vivamus ac mauris lectus. Sed risus turpis, imperdiet et dolor id, convallis consequat lacus. Fusce a arcu ac felis porta commodo. Ut nisi urna, egestas et diam vitae, commodo lobortis neque. Mauris dapibus tellus odio, at auctor nisi fermentum eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis est ac arcu congue dignissim. Donec posuere, neque ac dapibus gravida, ipsum mi volutpat arcu, sit amet sollicitudin turpis eros id magna. Quisque vitae augue nulla.
+				</p>
+				<p>
+					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam. In convallis vitae neque ut ultrices. Nullam id nibh et neque lobortis consectetur. Donec dictum, mi eget tempus efficitur, metus lacus tincidunt mauris, non vulputate augue arcu at enim. Mauris congue est nisl. Suspendisse mauris risus, pellentesque sed nibh a, dictum cursus risus. Suspendisse eu diam nec nisl elementum tristique a consequat dui. Etiam vel viverra tellus. Curabitur nec aliquet orci. Pellentesque nunc nunc, placerat id faucibus quis, laoreet vel nulla. Duis a elit condimentum, vestibulum urna semper, pharetra eros. Quisque hendrerit orci vitae nibh porttitor dignissim. Maecenas tincidunt feugiat mi, a tempus massa porttitor quis. Nulla facilisi. Donec lacinia ipsum id est gravida accumsan.
+				</p>		
+			</blockquote>
+			<div class="row">
+				<div class="col-md-5">Comments (5)</div>
+				<div class="col-md-5"></div>
+				<div class="col-md-2"><a href="#" onclick="return focus_form();">Write comment</a></div>
+			</div>
+			<hr>
+			<div class="row" style="margin-bottom: 8px">
+				<div class="col-md-3">
+					<span class="user-red">tourist</span><br>
+					<small class="text-muted">2 days ago</small>
+				</div>
+				<div class="col-md-9">
+					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 8px">
+				<div class="col-md-3">
+					<span class="user-red">tourist</span><br>
+					<small class="text-muted">2 days ago</small>
+				</div>
+				<div class="col-md-9">
+					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 8px">
+				<div class="col-md-3">
+					<span class="user-red">tourist</span><br>
+					<small class="text-muted">2 days ago</small>
+				</div>
+				<div class="col-md-9">
+					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 8px">
+				<div class="col-md-3">
+					<span class="user-red">tourist</span><br>
+					<small class="text-muted">2 days ago</small>
+				</div>
+				<div class="col-md-9">
+					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 8px">
+				<div class="col-md-3">
+					<span class="user-red">tourist</span><br>
+					<small class="text-muted">2 days ago</small>
+				</div>
+				<div class="col-md-9">
+					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
+				</div>
+			</div>
+			<hr>
+			<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" id="comment-form">
+				<div class="form-group row">
+					<label for="comment" class="col-sm-4 col-form-label">Post Comment</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" id="comment" rows="5" required></textarea>
+						<small class="form-text text-muted">
+							You may use LaTeX for rendering mathematical symbols.
+						</small>
+					</div>
+				</div>
+			</form>			
+		</div>
+		<div class="col-md-3">
+			
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block customjs %}
+<script type="text/javascript">
+	function focus_form(){
+		document.getElementById("comment").focus();
+		return false;
+	}
+</script>
+{% endblock %}

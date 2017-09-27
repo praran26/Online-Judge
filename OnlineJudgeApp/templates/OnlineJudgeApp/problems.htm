@@ -37,21 +37,25 @@
 					<h6>
 						<strong>Constraints:</strong>
 					</h6>
-					1<=T<=3<br>
-					1<=N<=10000000<br>
-					1<=K<=1000000000000000000
+					$1\le T\le 3$<br>
+					$1\le N\le 10000000$<br>
+					$1\le K\le 1000000000000000000$
 					<h6>
 						<strong>Input format:</strong>
 					</h6>
-					The first line of input contains a single integer T, the number of test cases.<br>
-					Each of the next T lines contain two integers, N and K, corresponding to each test case.
+					The first line of input contains a single integer $T$, the number of test cases.<br>
+					Each of the next $T$ lines contain two integers, $N$ and $K$, corresponding to each test case.
 					<h6>
 						<strong>Output format:</strong>
 					</h6>
-					For each test case, output the required sum modulo 1000000007 in a separate line.					
+					For each test case, output the required sum modulo $1000000007$ in a separate line.					
 				</div>
 				<div class="col-md-4">
+					<div class="standings_button" style="text-align: center;">
+						<a href="{% url 'standings' 5 %}">Standings</a>
+					</div>
 					<form style="width:100%;margin: auto;">
+						<input type="hidden" name="problem-id" value="A">
 						<div class="form-group">
 							<select class="form-control" id="compiler">
 								<option>GNU GCC 5.1.0</option>
@@ -127,7 +131,13 @@
 					For each test case, output the required sum modulo 1000000007 in a separate line.					
 				</div>
 				<div class="col-md-4">
+					<div class="standings_button" style="text-align: center;">
+						<a href="{% url 'standings' 5 %}">Standings</a>
+					</div>
+
 					<form style="width:100%;margin: auto;">
+						<input type="hidden" name="problem-id" value="B">
+
 						<div class="form-group">
 							<select class="form-control" id="compiler">
 								<option>GNU GCC 5.1.0</option>
@@ -237,6 +247,12 @@
 </div>
 {% endblock %}
 {% block customjs %}
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 <script type="text/javascript">
 	$(window).on('hashchange',function(){ 
 		var mylink=$(window.location.hash+'-pill');
@@ -246,6 +262,5 @@
 		var mylink=$(window.location.hash+'-pill');
 		mylink.click();
 	} );
-
 </script>
 {% endblock %}

@@ -20,8 +20,8 @@ body {
 }
 
 .activenav {
-	border-bottom: 5px solid #DEADFF;
-	padding-bottom: 2px;
+	border-bottom: 6px solid #DEADFF;
+	padding-bottom: 0px;
 }
 
 .navbar-custom {
@@ -29,20 +29,20 @@ body {
 }
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text {
-    color: rgba(255,255,255,.8);
+  color: rgba(255,255,255,.8);
 }
 /* change the link color */
 .navbar-custom .navbar-nav .nav-link {
-    color: rgba(255,255,255,.5);
+  color: rgba(255,255,255,.5);
 }
 /* change the color of active or hovered links */
 .navbar-custom .nav-item.active .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .custom-toggler.navbar-toggler {
-    border-color: rgb(255,255,255);
+  border-color: rgb(255,255,255);
 }
 .custom-toggler .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
@@ -51,13 +51,13 @@ body {
 .btn-primary {
   transition: 0.5s;
 }
-.btn-primary:hover, .btn-primary:focus {
+.btn-primary:hover {
   background-color: #FFFFFF;
   color:#000000;
   border-color: #428bca;
 }
 
-form, .submissions {
+form, .submissions, .standings_button, .user-profile {
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px 20px 10px 20px;
@@ -96,3 +96,8 @@ form, .submissions {
 }
 
 
+blockquote {
+  border-left: 10px solid #ccc;
+  padding-left: 16px;
+  padding-right: 16px;
+}

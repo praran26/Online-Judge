@@ -13,4 +13,6 @@ urlpatterns = [
 	url(r'^add/blog/$',views.add_blog,name='add_blog'),
 	url(r'^add/problem/$',views.add_problem,name='add_problem'),
 	url(r'^add/contest/$',views.add_contest,name='add_contest'),
+	url(r'^user/(?P<user_id>\w+)/',views.user,name='user'),
+	url(r'^blog/(?P<blog_id>\d+)/',views.blog,name='blog'),
 ]

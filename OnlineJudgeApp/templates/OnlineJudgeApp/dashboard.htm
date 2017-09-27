@@ -27,7 +27,7 @@
 									<a href="{% url 'add_blog' %}">Write a blog</a>
 								</li>
 								<li>
-									<a href="{% url 'add_problem' %}">Propose a problem</a>
+									<a href="{% url 'add_problem' %}">Add a problem</a>
 								</li>
 								<li>
 									<a href="{% url 'add_contest' %}">Propose a contest</a>
@@ -54,7 +54,7 @@
 									<strong>Rating</strong>
 								</div>
 								<div class="col-md-6">
-									<a href="#" class="user-orange">praran26</a>
+									<a href="{% url 'user' 'praran26' %}" class="user-orange">praran26</a>
 								</div>
 								<div class="col-md-6">
 									2211
@@ -101,13 +101,13 @@
 						<td>
 							<ul>
 								<li>
-									<a href="#" class="user-orange">praran26</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="#">[Tutorial] Centroid Decomposition</a>
+									<a href="#" class="user-orange">praran26</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Centroid Decomposition</a>
 								</li>
 								<li>
-									<a href="#" class="user-violet">dark_n8</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="#">[Tutorial] DP Optimizations</a>
+									<a href="#" class="user-violet">dark_n8</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] DP Optimizations</a>
 								</li>
 								<li>
-									<a href="#" class="user-violet">hitman623</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="#">[Tutorial] Mobius Function</a>
+									<a href="#" class="user-violet">hitman623</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Mobius Function</a>
 								</li>
 							</ul>
 						</td>
