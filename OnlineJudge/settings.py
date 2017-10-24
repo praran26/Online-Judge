@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'OnlineJudge.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'online_judge',
+        'NAME': 'onlinejudge',
         'USER': 'oj_user',
         'PASSWORD': 'Qwerty@123',
         'HOST': 'localhost'

@@ -90,7 +90,114 @@
 			</form>			
 		</div>
 		<div class="col-md-3">
-			
+			<table style="width:100%">
+				<thead>
+					<tr>
+						<td>
+							<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> praran26</strong>
+							<hr>							
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<ul>
+								<li>
+									Rating: 2211
+								</li>
+								<li>
+									<a href="{% url 'add_blog' %}">Write a blog</a>
+								</li>
+								<li>
+									<a href="{% url 'add_problem' %}">Add a problem</a>
+								</li>
+								<li>
+									<a href="{% url 'add_contest' %}">Propose a contest</a>
+								</li>
+							</ul>							
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table style="width:100%">
+				<thead>
+					<tr>
+						<td><i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> Top Rated</strong><hr></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<div class="row"  style="padding-left: 10%;margin-bottom: 16px;">
+								<div class="col-md-6">
+									<strong>User</strong>
+								</div>
+								<div class="col-md-6">
+									<strong>Rating</strong>
+								</div>
+								<div class="col-md-6">
+									<a href="{% url 'user' 'praran26' %}" class="user-orange">praran26</a>
+								</div>
+								<div class="col-md-6">
+									2211
+								</div>
+								<div class="col-md-6">
+									<a href="#" class="user-violet">divyam</a>
+								</div>
+								<div class="col-md-6">
+									1962
+								</div>
+								<div class="col-md-6">
+									<a href="#" class="user-violet">hitman623</a>
+								</div>
+								<div class="col-md-6">
+									1947
+								</div>
+								<div class="col-md-6">
+									<a href="#" class="user-violet">ayush24</a>
+								</div>
+								<div class="col-md-6">
+									1946
+								</div>
+								<div class="col-md-6">
+									<a href="#" class="user-violet">apoorv024</a>
+								</div>
+								<div class="col-md-6">
+									1935
+								</div>
+							</div>							
+						</td>						
+					</tr>
+				</tbody>
+			</table>
+			<table style="width:100%">
+				<thead>
+					<tr>
+						<td>
+							<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> Recent Blogs</strong><hr>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<ul>
+								<li>
+									<a href="#" class="user-orange">praran26</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Centroid Decomposition</a>
+								</li>
+								<li>
+									<a href="#" class="user-violet">dark_n8</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] DP Optimizations</a>
+								</li>
+								<li>
+									<a href="#" class="user-violet">hitman623</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Mobius Function</a>
+								</li>
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
 		</div>
 	</div>
 </div>

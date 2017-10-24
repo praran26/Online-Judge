@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<label for="contest-problems" class="col-sm-4 col-form-label">Select 5 problems</label>
+			<label for="contest-problems" class="col-sm-4 col-form-label">Select problems</label>
 			<div class="col-sm-8">
 				<select multiple class="form-control" id="contest-problems" name="problems">
 					<option value="1">Alpha</option>
@@ -38,7 +38,7 @@
 <script type="text/javascript">
 	$('#submit-button').click(function () {
 		counter=$("select option:selected").length;
-		if(counter!=5)return false;
+		if(counter==0)return false;
 	});	
 </script>
 {% endblock %}
