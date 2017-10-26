@@ -41,7 +41,7 @@ class Blog(models.Model):
 	blog_id=models.AutoField(primary_key=True)
 	title=models.CharField(max_length=100)
 	content=models.TextField()
-	timestamp=models.DateTimeField(auto_now_add=True)
+	timestamp=models.DateTimeField()
 	isImportant=models.BooleanField(default=False)
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
 	def __str__(self):
@@ -50,7 +50,7 @@ class Blog(models.Model):
 class Comment(models.Model):
 	comment_id=models.AutoField(primary_key=True)
 	content=models.TextField()
-	timestamp=models.DateTimeField(auto_now_add=True)
+	timestamp=models.DateTimeField()
 	blog=models.ForeignKey(Blog,on_delete=models.CASCADE)
 	user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
 	def __str__(self):
@@ -72,7 +72,7 @@ class Problem(models.Model):
 
 class Submission(models.Model):
 	sub_id=models.AutoField(primary_key=True)
-	timestamp=models.DateTimeField(auto_now_add=True)
+	timestamp=models.DateTimeField()
 	verdict=models.CharField(max_length=3)
 	prob_id=models.ForeignKey(Problem,on_delete=models.CASCADE)
 	compiler_id=models.ForeignKey(Compiler,on_delete=models.SET_NULL,null=True)
