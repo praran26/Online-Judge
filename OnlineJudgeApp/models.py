@@ -9,7 +9,9 @@ from django.dispatch import receiver
 class Profile(models.Model):
 	user=models.OneToOneField(User,on_delete=models.CASCADE)
 	rating=models.IntegerField(default=1500)
-	photo=models.ImageField(upload_to='users')
+	photo=models.ImageField(upload_to='users',null=True,blank=True)
+	def __str__(self):
+		return self.user.username
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -24,19 +26,26 @@ class Contest(models.Model):
 	contest_id=models.AutoField(primary_key=True)
 	start_time=models.DateTimeField()
 	duration=models.DurationField()
+	def __str__(self):
+		return str(self.contest_id)
 
 class Compiler(models.Model):
 	compiler_id=models.AutoField(primary_key=True)
 	lang=models.CharField(max_length=30)
 	version=models.CharField(max_length=30)
+	def __str__(self):
+		return " ".join((self.lang,self.version))
+
 
 class Blog(models.Model):
 	blog_id=models.AutoField(primary_key=True)
-	title=models.CharField(max_length=30)
+	title=models.CharField(max_length=100)
 	content=models.TextField()
 	timestamp=models.DateTimeField(auto_now_add=True)
 	isImportant=models.BooleanField(default=False)
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
+	def __str__(self):
+		return self.title
 
 class Comment(models.Model):
 	comment_id=models.AutoField(primary_key=True)
@@ -44,10 +53,12 @@ class Comment(models.Model):
 	timestamp=models.DateTimeField(auto_now_add=True)
 	blog=models.ForeignKey(Blog,on_delete=models.CASCADE)
 	user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+	def __str__(self):
+		return self.content
 
 class Problem(models.Model):
 	prob_id=models.AutoField(primary_key=True)
-	name=models.CharField(max_length=30)
+	name=models.CharField(max_length=100)
 	content=models.TextField()
 	time_limit=models.IntegerField()
 	mem_limit=models.IntegerField()
@@ -55,6 +66,9 @@ class Problem(models.Model):
 	user_solved=models.IntegerField(default=0)
 	checker=models.FileField()
 	setter=models.ForeignKey(User,on_delete=models.CASCADE)
+	def __str__(self):
+		return self.name
+
 
 class Submission(models.Model):
 	sub_id=models.AutoField(primary_key=True)
@@ -64,13 +78,16 @@ class Submission(models.Model):
 	compiler_id=models.ForeignKey(Compiler,on_delete=models.SET_NULL,null=True)
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
 
+
 class Test(models.Model):
 	test_id=models.AutoField(primary_key=True)
 	data=models.TextField()
 	problem=models.ForeignKey(Problem,on_delete=models.CASCADE)
 
 class Tag(models.Model):
-	tag=models.CharField(primary_key=True,max_length=30)
+	tag=models.CharField(primary_key=True,max_length=100)
+	def __str__(self):
+		return self.tag
 
 class ProbTag(models.Model):
 	class Meta:

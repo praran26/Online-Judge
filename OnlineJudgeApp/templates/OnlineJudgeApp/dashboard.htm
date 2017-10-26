@@ -91,7 +91,7 @@
 				<thead>
 					<tr>
 						<td>
-							<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> praran26</strong>
+							<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> {{ request.user.username }}</strong>
 							<hr>							
 						</td>
 					</tr>
@@ -101,7 +101,7 @@
 						<td>
 							<ul>
 								<li>
-									Rating: 2211
+									Rating: {{ request.user.profile.rating }}
 								</li>
 								<li>
 									<a href="{% url 'add_blog' %}">Write a blog</a>
@@ -180,6 +180,7 @@
 					<tr>
 						<td>
 							<ul>
+								
 								<li>
 									<a href="#" class="user-orange">praran26</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Centroid Decomposition</a>
 								</li>

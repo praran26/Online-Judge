@@ -76,11 +76,12 @@ WSGI_APPLICATION = 'OnlineJudge.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'onlinejudge',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'online_judge',
         'USER': 'oj_user',
         'PASSWORD': 'Qwerty@123',
-        'HOST': 'localhost'
+        'HOST': 'localhost',
+        'PORT':'',
     }
 }
 
@@ -124,3 +125,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+LOGIN_REDIRECT_URL = '/dashboard'
