@@ -25,7 +25,7 @@ SECRET_KEY = '=(hokjwl9+exuq_isq=(d37!(nmw@k(l0=epob8xq2)idj^&j*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -126,3 +126,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_URL = '/'

@@ -17,4 +17,7 @@ urlpatterns = [
 	url(r'^user/(?P<user_id>\w+)/',views.user,name='user'),
 	url(r'^blog/(?P<blog_id>\d+)/',views.blog,name='blog'),
 	url(r'^post_blog/$',views.post_blog,name='post_blog'),
+	url(r'^post_problem/$',views.post_problem,name='post_problem'),
+	url(r'^post_contest/$',views.post_contest,name='post_contest'),
+	
 ]

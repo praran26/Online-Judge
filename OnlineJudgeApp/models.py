@@ -10,6 +10,22 @@ class Profile(models.Model):
 	user=models.OneToOneField(User,on_delete=models.CASCADE)
 	rating=models.IntegerField(default=1500)
 	photo=models.ImageField(upload_to='users',null=True,blank=True)
+
+	@property
+	def color(self):
+		if self.rating>=2400:
+			return "user-red"
+		if self.rating>=2200:
+			return "user-orange"
+		if self.rating>=1900:
+			return "user-violet"
+		if self.rating>=1600:
+			return "user-blue"
+		if self.rating>=1400:
+			return "user-cyan"
+		if self.rating>=1200:
+			return "user-green"
+		return "user-gray"
 	def __str__(self):
 		return self.user.username
 
@@ -64,8 +80,8 @@ class Problem(models.Model):
 	mem_limit=models.IntegerField()
 	addedToPractice=models.BooleanField(default=False)
 	user_solved=models.IntegerField(default=0)
-	checker=models.FileField()
-	setter=models.ForeignKey(User,on_delete=models.CASCADE)
+	checker=models.TextField()
+	setter=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 	def __str__(self):
 		return self.name
 
@@ -98,7 +114,7 @@ class ProbTag(models.Model):
 class ProbContest(models.Model):
 	problem=models.OneToOneField(Problem,on_delete=models.CASCADE,primary_key=True)
 	contest=models.ForeignKey(Contest,on_delete=models.CASCADE)
-	index=models.IntegerField()
+	idx=models.CharField(max_length=1)
 
 class Participation(models.Model):
 	class Meta:
