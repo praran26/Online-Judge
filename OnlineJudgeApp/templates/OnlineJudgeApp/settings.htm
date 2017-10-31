@@ -2,29 +2,30 @@
 {% block title %}Settings{% endblock %}
 {% block content %}
 <div class="container">
-	<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;">
+	<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" method="POST" action="{% url 'update_profile' %}" onsubmit="return validateForm()" name="change_pass">
+		{% csrf_token %}
 		<div class="form-group row">
 			<label for="handle" class="col-sm-5 col-form-label">Handle</label>
 			<div class="col-sm-7">
-				<input type="text" readonly class="form-control-plaintext" id="handle" value="praran26">
+				<input type="text" readonly class="form-control" id="handle" value="praran26">
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="name" class="col-sm-5 col-form-label">Name</label>
 			<div class="col-sm-7">
-				<input type="text" readonly class="form-control-plaintext" id="name" value="Pranjal Jain">
+				<input type="text" readonly class="form-control" id="name" value="Pranjal Jain">
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="email" class="col-sm-5 col-form-label">Email address</label>
 			<div class="col-sm-7">
-				<input type="email" class="form-control" id="email" placeholder="Enter email" value="pranjal.jain.cse15@iitbhu.ac.in">
+				<input type="email" class="form-control" id="email" placeholder="Enter email" value="pranjal.jain.cse15@iitbhu.ac.in" readonly>
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="new_pass" class="col-sm-5 col-form-label">New password</label>
 			<div class="col-sm-7">
-				<input type="password" class="form-control" id="new_pass" aria-describedby="new_password" placeholder="Enter new password">
+				<input type="password" class="form-control" id="new_pass" aria-describedby="new_password" placeholder="Enter new password" name="new_pass">
 				<small id="new_password" class="form-text text-muted">
 					Leave it blank if you do not want to change the password
 				</small>
@@ -33,13 +34,13 @@
 		<div class="form-group row">
 			<label for="confirm_pass" class="col-sm-5 col-form-label">Confirm new password</label>
 			<div class="col-sm-7">
-				<input type="password" class="form-control" id="confirm_pass" placeholder="Re-enter new password">
+				<input type="password" class="form-control" id="confirm_pass" placeholder="Re-enter new password" name="confirm_pass">
 			</div>
 		</div>
 		<div class="form-group row">
 			<label for="old_pass" class="col-sm-5 col-form-label">Old password</label>
 			<div class="col-sm-7">
-				<input type="password" class="form-control" id="old_pass" aria-describedby="password" placeholder="Enter old password" required>
+				<input type="password" class="form-control" id="old_pass" aria-describedby="password" placeholder="Enter old password" required name="old_pass">
 				<small id="password" class="form-text text-muted">
 					This is required to updated settings.
 				</small>
@@ -48,6 +49,23 @@
 		<div class="text-center">
 			<button type="submit" class="btn btn-primary">Save changes</button>		
 		</div>
-	</form>		
+	</form>
 </div>
+{% block customjs %}
+<script type="text/javascript">
+	function validateForm(){
+		var oldpass=document.change_pass.old_pass.value;
+		var newpass=document.change_pass.new_pass.value;
+		var confirmpass=document.change_pass.confirm_pass.value;
+		console.log(oldpass);
+		console.log(newpass);
+		console.log(confirmpass);
+		
+		if(confirmpass!=newpass){
+			alert("Passwords do not match! Try again.");
+			return false;
+		}
+	}	
+</script>
+{% endblock %}
 {% endblock %}

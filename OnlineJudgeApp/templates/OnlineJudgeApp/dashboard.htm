@@ -4,87 +4,19 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-9">
+			{% for blog in importantBlogs %}
 			<div id="dash_blog">
 				<p>
-					<h3 style="color: #444">[Announcement] Round #5</h3>
-					<span>By <span class="user-violet">hitman623</span>, 5 days ago</span>
+					<h3 style="color: #444">{{blog.title}}</h3>
+					<span>By <a href="{% url 'user' blog.username %}">{{blog.username}}</a>, <span data-date='{{blog.timestamp|date:"r"}}'></span></span>
 				</p>
 				<blockquote class="blockquote" style="font-size: 1rem;">
-					<p>
-						Hello everyone!
-					</p>
-					<p>
-						I'm quite excited to invite you to Codeforces Round #439 (Div. 2) which takes place at 20:30 IST on 5 August and lasts for two hours.
-					</p>
-					<p>
-						One of the five problems is created by <span class="user-red">quailty</span>, and the others are created by me. This is our first round here.
-					</p>
-					<p>
-						The contest will consist of five problems and it is rated for everyone.
-					</p>
-					<p>
-						I hope you can have fun during the contest. Good luck and have fun, wish you high rating!
-					</p>
-					<p>
-						See you tomorrow!
-					</p>
-					<a href="{% url 'blog' 5 %}">Read more</a>
+					<span style="white-space:pre">{{ blog.content }}</span>
+					<br>
+					<a href="{% url 'blog' blog.blog_id %}">Read more</a>
 				</blockquote>				
 			</div>
-			<div id="dash_blog">
-				<p>
-					<h3 style="color: #444">[Announcement] Round #4</h3>
-					<span>By <span class="user-orange">praran26</span>, 5 days ago</span>
-				</p>
-				<blockquote class="blockquote" style="font-size: 1rem;">
-					<p>
-						Hello everyone!
-					</p>
-					<p>
-						I'm quite excited to invite you to Codeforces Round #439 (Div. 2) which takes place at 20:30 IST on 5 August and lasts for two hours.
-					</p>
-					<p>
-						One of the five problems is created by <span class="user-red">Petr</span>, and the others are created by me. This is our first round here.
-					</p>
-					<p>
-						The contest will consist of five problems and it is rated for everyone.
-					</p>
-					<p>
-						I hope you can have fun during the contest. Good luck and have fun, wish you high rating!
-					</p>
-					<p>
-						See you tomorrow!
-					</p>
-					<a href="{% url 'blog' 5 %}">Read more</a>
-				</blockquote>				
-			</div>
-			<div id="dash_blog">
-				<p>
-					<h3 style="color: #444">[Announcement] Round #3</h3>
-					<span>By <span class="user-violet">dark_n8</span>, 5 days ago</span>
-				</p>
-				<blockquote class="blockquote" style="font-size: 1rem;">
-					<p>
-						Hello everyone!
-					</p>
-					<p>
-						I'm quite excited to invite you to Codeforces Round #439 (Div. 2) which takes place at 20:30 IST on 5 August and lasts for two hours.
-					</p>
-					<p>
-						One of the five problems is created by <span class="user-red">kingofnumbers</span>, and the others are created by me. This is our first round here.
-					</p>
-					<p>
-						The contest will consist of five problems and it is rated for everyone.
-					</p>
-					<p>
-						I hope you can have fun during the contest. Good luck and have fun, wish you high rating!
-					</p>
-					<p>
-						See you tomorrow!
-					</p>
-					<a href="{% url 'blog' 5 %}">Read more</a>
-				</blockquote>				
-			</div>
+			{% endfor %}
 		</div>
 		<div class="col-md-3">
 			<table style="width:100%">
@@ -92,7 +24,7 @@
 					<tr>
 						<td>
 							<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> {{ request.user.username }}</strong>
-							<hr>							
+							<hr>
 						</td>
 					</tr>
 				</thead>
@@ -133,36 +65,14 @@
 								<div class="col-md-6">
 									<strong>Rating</strong>
 								</div>
+								{% for user in topRated %}
 								<div class="col-md-6">
-									<a href="{% url 'user' 'praran26' %}" class="user-orange">praran26</a>
+									<a href="{% url 'user' user.username %}">{{user.username}}</a>
 								</div>
 								<div class="col-md-6">
-									2211
+									{{user.rating}}
 								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">divyam</a>
-								</div>
-								<div class="col-md-6">
-									1962
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">hitman623</a>
-								</div>
-								<div class="col-md-6">
-									1947
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">ayush24</a>
-								</div>
-								<div class="col-md-6">
-									1946
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">apoorv024</a>
-								</div>
-								<div class="col-md-6">
-									1935
-								</div>
+								{% endfor %}
 							</div>							
 						</td>						
 					</tr>
@@ -180,15 +90,11 @@
 					<tr>
 						<td>
 							<ul>
+								{% for blog in recentBlogs %}
 								<li>
-									<a href="#" class="user-orange">praran26</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Centroid Decomposition</a>
+									<a href="{% url 'user' blog.username %}">{{blog.username}}</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' blog.blog_id %}">{{blog.title}}</a>
 								</li>
-								<li>
-									<a href="#" class="user-violet">dark_n8</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] DP Optimizations</a>
-								</li>
-								<li>
-									<a href="#" class="user-violet">hitman623</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Mobius Function</a>
-								</li>
+								{% endfor %}
 							</ul>
 						</td>
 					</tr>
@@ -197,4 +103,16 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+{% block customjs %}
+<script type="text/javascript">
+	MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	$(document).ready(function(){
+		$('span[data-date]').each(function(){
+			var cur=$(this);
+			cur.html(moment(new Date(cur.attr('data-date'))).fromNow());
+		});
+	});
+</script>
+
 {% endblock %}

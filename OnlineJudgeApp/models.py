@@ -10,22 +10,6 @@ class Profile(models.Model):
 	user=models.OneToOneField(User,on_delete=models.CASCADE)
 	rating=models.IntegerField(default=1500)
 	photo=models.ImageField(upload_to='users',null=True,blank=True)
-
-	@property
-	def color(self):
-		if self.rating>=2400:
-			return "user-red"
-		if self.rating>=2200:
-			return "user-orange"
-		if self.rating>=1900:
-			return "user-violet"
-		if self.rating>=1600:
-			return "user-blue"
-		if self.rating>=1400:
-			return "user-cyan"
-		if self.rating>=1200:
-			return "user-green"
-		return "user-gray"
 	def __str__(self):
 		return self.user.username
 

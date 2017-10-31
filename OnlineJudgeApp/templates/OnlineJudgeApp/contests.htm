@@ -19,54 +19,44 @@
 							<strong>Start</strong>
 						</div>
 						<div class="col-md-3">
-							<strong>End</strong>
+							<strong>Duration</strong>
 						</div>
 						<div class="col-md-3">
 							<strong>Registration</strong>
 						</div>
-						
+						{% for contest in presentContests %}
 						<div class="col-md-3">
-							Round 5
+							Round {{contest.contest_id}}
 						</div>
 						<div class="col-md-3">
-							Aug/05/2017, 18:30
+							{{contest.start_time|date:"d M Y, H:i T"}}
 						</div>
 						<div class="col-md-3">
-							Aug/05/2017, 20:30
+							{{contest.duration}}
 						</div>
 						<div class="col-md-3">
-							<a href="{% url 'problems' 5 %}">Enter</a>
+							<a href="{% url 'contest' contest.contest_id %}">Enter</a>
+						</div>
+						{% endfor %}
+						{% for contest in futureContests %}
+						<div class="col-md-3">
+							Round {{contest.contest_id}}
 						</div>
 						<div class="col-md-3">
-							Round 6
+							{{contest.start_time|date:"d M Y, H:i T"}}
 						</div>
 						<div class="col-md-3">
-							Aug/06/2017, 18:30
+							{{contest.duration}}
 						</div>
 						<div class="col-md-3">
-							Aug/06/2017, 20:30
 						</div>
-						<div class="col-md-3">
-							Registered
-						</div>
-
-						<div class="col-md-3">
-							Round 7
-						</div>
-						<div class="col-md-3">
-							Aug/07/2017, 18:30
-						</div>
-						<div class="col-md-3">
-							Aug/07/2017, 20:30
-						</div>
-						<div class="col-md-3">
-							<a href="#">Register</a>
-						</div>
+						{% endfor %}
 					</div>
 				</td>			
 			</tr>
 		</tbody>
 	</table>
+	{% if pastContests %}
 	<table style="width:100%">
 		<thead>
 			<tr>
@@ -89,62 +79,25 @@
 						<div class="col-md-3">
 							<strong>Standings</strong>
 						</div>
+						{% for contest in pastContests %}
 						<div class="col-md-3">
-							Round 4
+							Round {{contest.contest_id}}
 						</div>
 						<div class="col-md-3">
-							Aug/04/2017, 18:30
+							{{contest.start_time|date:"d M Y, H:i T"}}
 						</div>
 						<div class="col-md-3">
-							Aug/04/2017, 20:30
+							{{contest.duration}}
 						</div>
 						<div class="col-md-3">
-							<a href="{% url 'standings' 4 %}">Standings</a> (5/2167)
+							<a href="{% url 'standings' contest.contest_id %}">Standings</a>
 						</div>
-
-						<div class="col-md-3">
-							Round 3
-						</div>
-						<div class="col-md-3">
-							Aug/03/2017, 18:30
-						</div>
-						<div class="col-md-3">
-							Aug/03/2017, 20:30
-						</div>
-						<div class="col-md-3">
-							<a href="#">Standings</a>
-						</div>
-						
-						<div class="col-md-3">
-							Round 2
-						</div>
-						<div class="col-md-3">
-							Aug/02/2017, 18:30
-						</div>
-						<div class="col-md-3">
-							Aug/02/2017, 20:30
-						</div>
-						<div class="col-md-3">
-							<a href="#">Standings</a> (2/1687)
-						</div>
-						<div class="col-md-3">
-							Round 1
-						</div>
-						<div class="col-md-3">
-							Aug/01/2017, 18:30
-						</div>
-						<div class="col-md-3">
-							Aug/01/2017, 20:30
-						</div>
-						<div class="col-md-3">
-							<a href="#">Standings</a>
-						</div>
-						
+						{% endfor %}
 					</div>
 				</td>			
 			</tr>
 		</tbody>
 	</table>
-
+	{% endif %}
 </div>
 {% endblock %}

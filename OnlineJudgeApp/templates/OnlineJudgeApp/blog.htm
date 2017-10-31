@@ -6,7 +6,7 @@
 		<div class="col-md-9">
 			<p>
 				<h3 style="color: #444">{{ title }}</h3>
-				<span>By <span class="user-orange">{{ user_id }}</span>, {{ timestamp }}</span>
+				<span>By <a href="{% url 'user' user_id %}">{{ user_id }}</a>, <span data-date='{{timestamp|date:"r"}}'></span></span> {% if request.user.is_superuser %}{% if not isImportant %}<a href="{% url 'makeImportant' blog_id %}">Make important</a>{% else %}<a href="{% url 'removeImportant' blog_id %}">Remove important</a>{% endif %}{% endif %}
 			</p>
 			<blockquote class="blockquote" style="font-size: 1rem;">
 				<span style="white-space:pre">{{ content }}</span>
@@ -17,62 +17,32 @@
 				<div class="col-md-2"><a href="#" onclick="return focus_form();">Write comment</a></div>
 			</div>
 			<hr>
+			{% for comment in comments %}
 			<div class="row" style="margin-bottom: 8px">
 				<div class="col-md-3">
-					<span class="user-red">tourist</span><br>
-					<small class="text-muted">2 days ago</small>
+					<a href="{% url 'user' comment.author %}">{{comment.author}}</a><br>
+					<small class="text-muted"><span data-date='{{comment.timestamp|date:"r"}}'></span></small>
 				</div>
 				<div class="col-md-9">
-					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
+					{{comment.content}}
 				</div>
 			</div>
-			<div class="row" style="margin-bottom: 8px">
-				<div class="col-md-3">
-					<span class="user-red">tourist</span><br>
-					<small class="text-muted">2 days ago</small>
-				</div>
-				<div class="col-md-9">
-					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
-				</div>
-			</div>
-			<div class="row" style="margin-bottom: 8px">
-				<div class="col-md-3">
-					<span class="user-red">tourist</span><br>
-					<small class="text-muted">2 days ago</small>
-				</div>
-				<div class="col-md-9">
-					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
-				</div>
-			</div>
-			<div class="row" style="margin-bottom: 8px">
-				<div class="col-md-3">
-					<span class="user-red">tourist</span><br>
-					<small class="text-muted">2 days ago</small>
-				</div>
-				<div class="col-md-9">
-					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
-				</div>
-			</div>
-			<div class="row" style="margin-bottom: 8px">
-				<div class="col-md-3">
-					<span class="user-red">tourist</span><br>
-					<small class="text-muted">2 days ago</small>
-				</div>
-				<div class="col-md-9">
-					In ex neque, lacinia quis vestibulum molestie, consectetur eget lorem. Nullam eu pretium sem, non faucibus quam.
-				</div>
-			</div>
+			{% endfor %}
 			<hr>
-			<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" id="comment-form">
+			<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" id="comment-form" method="POST" action="{% url 'post_comment' blog_id %}">
+				{% csrf_token %}
 				<div class="form-group row">
 					<label for="comment" class="col-sm-4 col-form-label">Post Comment</label>
 					<div class="col-sm-8">
-						<textarea class="form-control" id="comment" rows="5" required></textarea>
+						<textarea class="form-control" id="comment" rows="5" required name="comment_content"></textarea>
 						<small class="form-text text-muted">
 							You may use LaTeX for rendering mathematical symbols.
 						</small>
 					</div>
 				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">Post comment</button>		
+				</div>				
 			</form>			
 		</div>
 		<div class="col-md-3">
@@ -80,7 +50,7 @@
 				<thead>
 					<tr>
 						<td>
-							<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> praran26</strong>
+							<i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> {{ request.user.username }}</strong>
 							<hr>							
 						</td>
 					</tr>
@@ -90,7 +60,7 @@
 						<td>
 							<ul>
 								<li>
-									Rating: 2211
+									Rating: {{ request.user.profile.rating }}
 								</li>
 								<li>
 									<a href="{% url 'add_blog' %}">Write a blog</a>
@@ -122,36 +92,14 @@
 								<div class="col-md-6">
 									<strong>Rating</strong>
 								</div>
+								{% for user in topRated %}
 								<div class="col-md-6">
-									<a href="{% url 'user' 'praran26' %}" class="user-orange">praran26</a>
+									<a href="{% url 'user' user.username %}">{{user.username}}</a>
 								</div>
 								<div class="col-md-6">
-									2211
+									{{user.rating}}
 								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">divyam</a>
-								</div>
-								<div class="col-md-6">
-									1962
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">hitman623</a>
-								</div>
-								<div class="col-md-6">
-									1947
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">ayush24</a>
-								</div>
-								<div class="col-md-6">
-									1946
-								</div>
-								<div class="col-md-6">
-									<a href="#" class="user-violet">apoorv024</a>
-								</div>
-								<div class="col-md-6">
-									1935
-								</div>
+								{% endfor %}
 							</div>							
 						</td>						
 					</tr>
@@ -169,21 +117,16 @@
 					<tr>
 						<td>
 							<ul>
+								{% for blog in recentBlogs %}
 								<li>
-									<a href="#" class="user-orange">praran26</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Centroid Decomposition</a>
+									<a href="{% url 'user' blog.username %}">{{blog.username}}</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' blog.blog_id %}">{{blog.title}}</a>
 								</li>
-								<li>
-									<a href="#" class="user-violet">dark_n8</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] DP Optimizations</a>
-								</li>
-								<li>
-									<a href="#" class="user-violet">hitman623</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> <a href="{% url 'blog' 3 %}">[Tutorial] Mobius Function</a>
-								</li>
+								{% endfor %}
 							</ul>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-
 		</div>
 	</div>
 </div>
@@ -195,6 +138,13 @@
 		return false;
 	}
 	MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	$(document).ready(function(){
+		$('span[data-date]').each(function(){
+			var cur=$(this);
+			cur.html(moment(new Date(cur.attr('data-date'))).fromNow());
+		});
+	});
+
 </script>
 
 {% endblock %}

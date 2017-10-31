@@ -16,67 +16,14 @@
 			</tr>
 		</thead>
 		<tbody>
+			{% for problem in prob_list %}
 			<tr>
-				<td><a href="{% url 'problems' 5 %}#problem-E">4E</a></td>
-				<td>Chess</td>
-				<td>math, shortest path</td>
-				<td>67</td>
+				<td><a href="{% url 'problems' contest_id=problem.contest_id  problem_id=problem.idx %}">{{ problem.contest_id }}{{problem.idx}}</a></td>
+				<td>{{problem.name}}</td>
+				<td>{{problem.tags}}</td>
+				<td>{{problem.user_solved}}</td>
 			</tr>
-			<tr>
-				<td>4D</td>
-				<td>Journey</td>
-				<td>dp, math</td>
-				<td>187</td>
-			</tr>
-			<tr>
-				<td>4C</td>
-				<td>Array</td>
-				<td>combinatorics, math</td>
-				<td>733</td>
-			</tr>
-			<tr>
-				<td>4B</td>
-				<td>Martian Architecture</td>
-				<td>implementation</td>
-				<td>716</td>
-			</tr>
-			<tr>
-				<td>4A</td>
-				<td>Square Earth?</td>
-				<td>greedy, implementation</td>
-				<td>1441</td>
-			</tr>
-			<tr>
-				<td>3E</td>
-				<td>Polynom</td>
-				<td>implementation</td>
-				<td>83</td>
-			</tr>
-			<tr>
-				<td>3D</td>
-				<td>Lamps in a Line</td>
-				<td>math</td>
-				<td>107</td>
-			</tr>
-			<tr>
-				<td>3C</td>
-				<td>A+B</td>
-				<td>implementation</td>
-				<td>261</td>
-			</tr>
-			<tr>
-				<td>3B</td>
-				<td>Friendly Numbers</td>
-				<td>implementation</td>
-				<td>176</td>
-			</tr>
-			<tr>
-				<td>3A</td>
-				<td>Carpeting the Room</td>
-				<td>implementation</td>
-				<td>283</td>
-			</tr>
-
+			{% endfor %}
 		</tbody>
 	</table>
 </div>
