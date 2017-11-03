@@ -55,6 +55,8 @@ Login
 			<label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
 		</div>
 	</form>
+	<br>
+	<center>Don't have an account yet? Click <a href="{% url 'registration' %}">here</a> to register.</center>
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 		document.getElementById('id_username').focus()
