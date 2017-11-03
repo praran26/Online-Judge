@@ -1,9 +1,9 @@
 {% extends 'OnlineJudgeApp/base.htm' %}
 {% load staticfiles %}
-{% block title %}praran26{% endblock %}
+{% block title %}{{ username }}{% endblock %}
 {% block content %}
 <div class="container">
-	<p><i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> {{ username }}</strong></p>
+	<p><i class="fa fa-chevron-right" aria-hidden="true"></i> <strong> {{ username }}</strong> {% if request.user.is_superuser and not is_superuser %}{% if is_active %}<a href="{% url 'ban_user' username %}" style="color:red">Ban user</a>{% else %}<a href="{% url 'unban_user' username %}" style="color:red">Unban user</a>{% endif %}{% endif %}</p>
 	<div class="user-profile">
 		<div class="row">
 			<div class="col-md-5">

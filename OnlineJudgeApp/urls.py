@@ -29,5 +29,7 @@ urlpatterns = [
 	url(r'^register/$',views.register,name='registration'),
 	url(r'^registration_post/$',views.registration_post,name='registration_post'),
 	url(r'^verify_email/(?P<hash_val>\w+)/$',views.verify_email,name="verify_email"),
-	url(r'^login_post/$',views.login_post,name='login_post')
+	url(r'^login_post/$',views.login_post,name='login_post'),
+	url(r'^ban_user/(?P<user_id>\w+)/$',views.ban_user,name='ban_user'),
+	url(r'^unban_user/(?P<user_id>\w+)/$',views.unban_user,name='unban_user'),
 ]

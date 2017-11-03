@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'OnlineJudgeApp.middleware.ActiveUserMiddleware',
 ]
 
 ROOT_URLCONF = 'OnlineJudge.urls'

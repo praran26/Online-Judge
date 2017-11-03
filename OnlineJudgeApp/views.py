@@ -133,13 +133,27 @@ def add_contest(request):
 @login_required
 def user(request,user_id):
 	with connection.cursor() as cursor:
-		cursor.execute("SELECT b.id,b.username,a.rating,b.email,b.first_name,b.last_name,b.date_joined FROM OnlineJudgeApp_profile a,auth_user b WHERE a.user_id=b.id AND b.username='%s'"%(user_id))
+		cursor.execute("SELECT b.id,b.username,a.rating,b.email,b.first_name,b.last_name,b.date_joined,b.is_active,b.is_superuser FROM OnlineJudgeApp_profile a,auth_user b WHERE a.user_id=b.id AND b.username='%s'"%(user_id))
 		res=cursor.fetchone()
-		headers=["id","username","rating","email","first_name","last_name","date_joined"]
+		headers=["id","username","rating","email","first_name","last_name","date_joined","is_active","is_superuser"]
 		temp=dict(zip(headers,res))
 		cursor.execute("SELECT blog_id,title FROM OnlineJudgeApp_blog WHERE user_id=%d;"%(int(temp["id"])))
 		temp["blogs"]=[dict(zip(["blog_id","title"],i)) for i in cursor.fetchall()]
 		return render(request, 'OnlineJudgeApp/user.htm',temp)
+
+@login_required
+def ban_user(request,user_id):
+	if request.user.is_superuser:
+		with connection.cursor() as cursor:
+			cursor.execute("UPDATE auth_user SET is_active=0 WHERE username='%s';"%(user_id))
+		return HttpResponseRedirect(reverse('user',kwargs={'user_id':user_id}))
+
+@login_required
+def unban_user(request,user_id):
+	if request.user.is_superuser:
+		with connection.cursor() as cursor:
+			cursor.execute("UPDATE auth_user SET is_active=1 WHERE username='%s';"%(user_id))
+		return HttpResponseRedirect(reverse('user',kwargs={'user_id':user_id}))
 
 @login_required
 def blog(request,blog_id):
@@ -362,9 +376,12 @@ def login_post(request):
 				messages.add_message(request,messages.ERROR,"Please verify your email.")
 				return HttpResponseRedirect(reverse('login'))
 			cursor.execute("SELECT * FROM auth_user x WHERE x.username='%s'"%(request.POST["username"]))
-			a=cursor.fetchall()
+			a=cursor.fetchone()
 			if not a:
 				messages.add_message(request,messages.ERROR,"Handle does not exist. Please try again.")
+				return HttpResponseRedirect(reverse('login'))
+			if a[9]==0:
+				messages.add_message(request,messages.ERROR,"You have been banned by admin.")
 				return HttpResponseRedirect(reverse('login'))
 			user=authenticate(username=request.POST['username'],password=request.POST['password'])
 			if user is not None:
