@@ -3,7 +3,8 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-	url(r'^$',auth_views.login,{'template_name': 'OnlineJudgeApp/login.htm'},name='login'),
+	url(r'^$',views.home,name="home"),
+	url(r'^login/$',views.login,name='login'),
 	url(r'^dashboard/$',views.dashboard,name='dashboard'),
 	url(r'^contests/$',views.contests,name='contests'),
 	url(r'^problemset/$',views.problemset,name='problemset'),
@@ -25,4 +26,8 @@ urlpatterns = [
 	url(r'^make_important/(?P<blog_id>\d+)/$',views.make_important,name='makeImportant'),
 	url(r'^remove_important/(?P<blog_id>\d+)/$',views.remove_important,name='removeImportant'),
 	url(r'^contests/(?P<contest_id>\d+)/problems/(?P<problem_id>\w)/submit/$',views.submit,name='submit'),
+	url(r'^register/$',views.register,name='registration'),
+	url(r'^registration_post/$',views.registration_post,name='registration_post'),
+	url(r'^verify_email/(?P<hash_val>\w+)/$',views.verify_email,name="verify_email"),
+	url(r'^login_post/$',views.login_post,name='login_post')
 ]

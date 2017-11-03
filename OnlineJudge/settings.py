@@ -26,7 +26,11 @@ SECRET_KEY = '=(hokjwl9+exuq_isq=(d37!(nmw@k(l0=epob8xq2)idj^&j*'
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
-
+EMAIL_USE_TLS = True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER='pranjal.jain.cse15@itbhu.ac.in'
+EMAIL_HOST_PASSWORD=''
 
 # Application definition
 

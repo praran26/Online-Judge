@@ -107,3 +107,8 @@ class Participation(models.Model):
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
 	timetaken=models.IntegerField()
 	rating_change=models.IntegerField()
+
+class regnConfirm(models.Model):
+	regn_id=models.AutoField(primary_key=True)
+	user=models.ForeignKey(User,on_delete=models.CASCADE)
+	hashval=models.TextField()

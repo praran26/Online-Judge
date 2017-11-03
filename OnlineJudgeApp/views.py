@@ -8,7 +8,11 @@ from datetime import datetime,timedelta
 from django.contrib.auth import logout
 from django.core.files.base import ContentFile
 from django.conf import settings as settingsFile
-import random,os,shutil,subprocess,resource,functools
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+import random,os,shutil,subprocess,resource,functools,hashlib
+from django.contrib.auth import authenticate, login as login_user
 # Create your views here.
 @login_required
 def dashboard(request):
@@ -64,9 +68,6 @@ def problemset(request):
 @login_required
 def settings(request):
 	return render(request, 'OnlineJudgeApp/settings.htm',{})
-
-def login(request):
-	return render(request, 'OnlineJudgeApp/login.htm',{})
 
 @login_required
 def logout(request):
@@ -314,3 +315,71 @@ def submit(request,contest_id,problem_id):
 		if os.path.isdir(os.path.join(BASE_PATH,folder)):
 			shutil.rmtree(os.path.join(BASE_PATH,folder))
 		return HttpResponseRedirect(reverse('problems',kwargs={'contest_id':contest_id,'problem_id':problem_id}))
+def home(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		return HttpResponseRedirect(reverse('login'))
+def register(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		return render(request,'OnlineJudgeApp/register.htm')
+def login(request):
+	if request.user.is_authenticated:
+		return HttpResponseRedirect(reverse('dashboard'))
+	else:
+		return render(request,'OnlineJudgeApp/login.htm')
+def registration_post(request):
+	if request.POST:
+		with connection.cursor() as cursor:
+			cursor.execute("SELECT * FROM auth_user x WHERE x.email='%s' AND NOT EXISTS (SELECT * FROM OnlineJudgeApp_regnconfirm y WHERE x.id=y.user_id)"%(request.POST["email"]))
+			if cursor.fetchall():
+				messages.add_message(request,messages.ERROR,"There is already an account associated with email. Please try login instead.")
+				return HttpResponseRedirect(reverse('login'))
+			cursor.execute("SELECT * FROM auth_user x WHERE x.username='%s'"%(request.POST["username"]))
+			if cursor.fetchall():
+				messages.add_message(request,messages.ERROR,"There is already an account associated with handle. Please try another handle.")
+				return HttpResponseRedirect(reverse('registration'))
+			User.objects.create_user(username=request.POST['username'],password=request.POST['password'],email=request.POST['email'],first_name=request.POST['first'],last_name=request.POST['last'])
+			cursor.execute("SELECT * FROM auth_user WHERE id=(SELECT LAST_INSERT_ID());")
+			user=cursor.fetchone()
+			mystr=str(user[1])+str(user[4])+str(user[10])
+			hashval=hashlib.sha512(mystr).hexdigest()
+			cursor.execute("INSERT INTO OnlineJudgeApp_regnconfirm (user_id,hashval) VALUES (%d,'%s');"%(int(user[0]),hashval))
+			subject,from_email,to='Verify Online Judge password','admin@onlinejudge.org',request.POST['email']
+			text_content='Please verify your email address. Ignore if not registered on the Online Judge.'
+			html_content='<a href="%s">Verify!</a>'%(request.build_absolute_uri(reverse(verify_email,kwargs={'hash_val':hashval})))
+			msg=EmailMultiAlternatives(subject,text_content,from_email,[to])
+			msg.attach_alternative(html_content,"text/html")
+			msg.send()
+		return render(request,'OnlineJudgeApp/registration_post.htm')
+def login_post(request):
+	if request.POST:
+		with connection.cursor() as cursor:
+			cursor.execute("SELECT * FROM auth_user x WHERE x.username='%s' AND EXISTS (SELECT * FROM OnlineJudgeApp_regnconfirm y WHERE x.id=y.user_id)"%(request.POST["username"]))
+			if cursor.fetchall():
+				messages.add_message(request,messages.ERROR,"Please verify your email.")
+				return HttpResponseRedirect(reverse('login'))
+			cursor.execute("SELECT * FROM auth_user x WHERE x.username='%s'"%(request.POST["username"]))
+			a=cursor.fetchall()
+			if not a:
+				messages.add_message(request,messages.ERROR,"Handle does not exist. Please try again.")
+				return HttpResponseRedirect(reverse('login'))
+			user=authenticate(username=request.POST['username'],password=request.POST['password'])
+			if user is not None:
+				login_user(request,user)
+				return HttpResponseRedirect(reverse('dashboard'))
+			else:
+				messages.add_message(request,messages.ERROR,"Invalid password. Please try again.")
+				return HttpResponseRedirect(reverse('login'))
+def verify_email(request,hash_val):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT user_id FROM OnlineJudgeApp_regnconfirm WHERE hashval='%s';"%(hash_val));
+		a=cursor.fetchall()
+		if not a:
+			raise Http404
+		else:
+			cursor.execute("DELETE FROM OnlineJudgeApp_regnconfirm WHERE user_id=%d;"%(int(a[0][0])));
+			messages.add_message(request,messages.SUCCESS,"Your email has been successfully verified. You may login now.")
+			return HttpResponseRedirect(reverse('home'))
