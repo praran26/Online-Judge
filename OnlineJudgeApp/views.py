@@ -441,3 +441,10 @@ def delete_comment(request,comment_id):
 			return HttpResponseRedirect(reverse('blog',kwargs={'blog_id':res[1]}))
 		else:
 			raise PermissionDenied
+@login_required
+def unused_problems(request):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT * FROM OnlineJudgeApp_problem WHERE setter_id=%d;"%(int(request.user.id)))
+		headers=["prob_id","name","content","time_limit","mem_limit","addedToPractice","user_solved","checker","setter_id"]
+		res=[dict(zip(headers,i)) for i in cursor.fetchall()]
+		return render(request,"OnlineJudgeApp/unused_problems.htm",{"problems":res})

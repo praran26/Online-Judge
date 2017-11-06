@@ -10,35 +10,37 @@
 				<p><i class="fa fa-user-circle-o" aria-hidden="true"></i> {{first_name}} {{last_name}}</p>
 				<p><i class="fa fa-area-chart" aria-hidden="true"></i> {{rating}}</p>
 				<p><i class="fa fa-envelope" aria-hidden="true"></i> {{email}}</p>
-                <p><i class="fa fa-calendar" aria-hidden="true"></i> <b>Registered: </b><span id="then" data-date='{{date_joined|date:"r"}}'></span></p>
-                {% if blogs %}
-                <p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#user-blogs" aria-expanded="false" aria-controls="user-blogs">
-                   Blog entries
-               </button></p>
-               {% endif %}
-           </div>
-           <div class="col-md-7">
-            <div class="collapse" id="user-blogs">
-                {% for blog in blogs %}
-                <div class="card card-body">
-                    <ul style="margin-bottom: 0">
-                        <li><a href="{% url 'blog' blog.blog_id %}">{{blog.title}}</a></li>
-                    </ul>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
+				<p><i class="fa fa-calendar" aria-hidden="true"></i> <b>Registered: </b><span id="then" data-date='{{date_joined|date:"r"}}'></span></p>
+				{% if blogs %}
+				<p>
+					<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#user-blogs" aria-expanded="false" aria-controls="user-blogs">
+						Blog entries
+					</button>
+				</p>
+				{% endif %}
+			</div>
+			<div class="col-md-7">
+				<div class="collapse" id="user-blogs">
+					{% for blog in blogs %}
+					<div class="card card-body">
+						<ul style="margin-bottom: 0">
+							<li><a href="{% url 'blog' blog.blog_id %}">{{blog.title}}</a></li>
+						</ul>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 {% block customjs %}
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $('span[data-date]').each(function(){
-          var cur=$(this);
-          cur.html(moment(new Date(cur.attr('data-date'))).fromNow());
-        });
-      });
-    </script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('span[data-date]').each(function(){
+			var cur=$(this);
+			cur.html(moment(new Date(cur.attr('data-date'))).fromNow());
+		});
+	});
+</script>
 {% endblock %}

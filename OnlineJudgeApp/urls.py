@@ -35,5 +35,6 @@ urlpatterns = [
 	url(r'^ban_user/(?P<user_id>\w+)/$',views.ban_user,name='ban_user'),
 	url(r'^unban_user/(?P<user_id>\w+)/$',views.unban_user,name='unban_user'),
 	url(r'^update_blog/(?P<blog_id>\d+)/$',views.update_blog,name='update_blog'),
-	url(r'^delete_comment/(?P<comment_id>\d+)/$',views.delete_comment,name='delete_comment')
+	url(r'^delete_comment/(?P<comment_id>\d+)/$',views.delete_comment,name='delete_comment'),
+	url(r'^unused_problems/$',views.unused_problems,name='unused_problems'),
 ]
