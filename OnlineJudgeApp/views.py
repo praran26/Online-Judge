@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 import random,os,shutil,subprocess,resource,functools,hashlib
 from django.contrib.auth import authenticate, login as login_user
+from django.core.exceptions import PermissionDenied
 # Create your views here.
 @login_required
 def dashboard(request):
@@ -230,7 +231,7 @@ def post_contest(request):
 def post_comment(request,blog_id):
 	if request.POST:
 		user=request.user.id
-		content=request.POST['comment_content']
+		content=request.POST['comment_content'].replace('\\','\\\\')
 		timestamp=str(datetime.now())
 		with connection.cursor() as cursor:
 			cursor.execute("INSERT INTO OnlineJudgeApp_comment (content,timestamp,blog_id,user_id) VALUES ('%s','%s',%d,%d)"%(content,timestamp,int(blog_id),int(user)))
@@ -361,7 +362,7 @@ def registration_post(request):
 			mystr=str(user[1])+str(user[4])+str(user[10])
 			hashval=hashlib.sha512(mystr).hexdigest()
 			cursor.execute("INSERT INTO OnlineJudgeApp_regnconfirm (user_id,hashval) VALUES (%d,'%s');"%(int(user[0]),hashval))
-			subject,from_email,to='Verify Online Judge password','admin@onlinejudge.org',request.POST['email']
+			subject,from_email,to='Verify Online Judge email address','admin@onlinejudge.org',request.POST['email']
 			text_content='Please verify your email address. Ignore if not registered on the Online Judge.'
 			html_content='<a href="%s">Verify!</a>'%(request.build_absolute_uri(reverse(verify_email,kwargs={'hash_val':hashval})))
 			msg=EmailMultiAlternatives(subject,text_content,from_email,[to])
@@ -400,3 +401,43 @@ def verify_email(request,hash_val):
 			cursor.execute("DELETE FROM OnlineJudgeApp_regnconfirm WHERE user_id=%d;"%(int(a[0][0])));
 			messages.add_message(request,messages.SUCCESS,"Your email has been successfully verified. You may login now.")
 			return HttpResponseRedirect(reverse('home'))
+
+@login_required
+def delete_blog(request,blog_id):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT user_id FROM OnlineJudgeApp_blog WHERE blog_id=%d;"%(int(blog_id)))
+		if request.user.is_superuser or cursor.fetchone()[0]==request.user.id:
+			cursor.execute("DELETE FROM OnlineJudgeApp_blog WHERE blog_id=%d;"%(int(blog_id)))
+			return HttpResponseRedirect(reverse('dashboard'))
+		else:
+			raise PermissionDenied
+
+@login_required
+def edit_blog(request,blog_id):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT user_id FROM OnlineJudgeApp_blog WHERE blog_id=%d;"%(int(blog_id)))
+		if request.user.is_superuser or cursor.fetchone()[0]==request.user.id:
+			cursor.execute("SELECT * FROM OnlineJudgeApp_blog WHERE blog_id=%d;"%(int(blog_id)))
+			headers=["blog_id","title","content","timestamp","isImportant","user_id"]
+			res=dict(zip(headers,cursor.fetchone()))
+			return render(request,"OnlineJudgeApp/edit_blog.htm",res)
+		else:
+			raise PermissionDenied
+
+@login_required
+def update_blog(request,blog_id):
+	if request.POST:
+		with connection.cursor() as cursor:
+			cursor.execute("UPDATE OnlineJudgeApp_blog SET content='%s' WHERE blog_id=%d;"%(request.POST['blog-content'].replace('\\','\\\\'),int(blog_id)))
+		return HttpResponseRedirect(reverse('blog',kwargs={'blog_id':blog_id}))
+
+@login_required
+def delete_comment(request,comment_id):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT user_id,blog_id FROM OnlineJudgeApp_comment WHERE comment_id=%d;"%(int(comment_id)))
+		res=cursor.fetchone()
+		if request.user.is_superuser or res[0]==request.user.id:
+			cursor.execute("DELETE FROM OnlineJudgeApp_comment WHERE comment_id=%d;"%(int(comment_id)))
+			return HttpResponseRedirect(reverse('blog',kwargs={'blog_id':res[1]}))
+		else:
+			raise PermissionDenied

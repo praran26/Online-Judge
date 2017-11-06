@@ -25,6 +25,8 @@ urlpatterns = [
 	url(r'^update_profile/$',views.update_profile,name='update_profile'),
 	url(r'^make_important/(?P<blog_id>\d+)/$',views.make_important,name='makeImportant'),
 	url(r'^remove_important/(?P<blog_id>\d+)/$',views.remove_important,name='removeImportant'),
+	url(r'^delete_blog/(?P<blog_id>\d+)/$',views.delete_blog,name='delete_blog'),
+	url(r'^edit_blog/(?P<blog_id>\d+)/$',views.edit_blog,name='edit_blog'),
 	url(r'^contests/(?P<contest_id>\d+)/problems/(?P<problem_id>\w)/submit/$',views.submit,name='submit'),
 	url(r'^register/$',views.register,name='registration'),
 	url(r'^registration_post/$',views.registration_post,name='registration_post'),
@@ -32,4 +34,6 @@ urlpatterns = [
 	url(r'^login_post/$',views.login_post,name='login_post'),
 	url(r'^ban_user/(?P<user_id>\w+)/$',views.ban_user,name='ban_user'),
 	url(r'^unban_user/(?P<user_id>\w+)/$',views.unban_user,name='unban_user'),
+	url(r'^update_blog/(?P<blog_id>\d+)/$',views.update_blog,name='update_blog'),
+	url(r'^delete_comment/(?P<comment_id>\d+)/$',views.delete_comment,name='delete_comment')
 ]

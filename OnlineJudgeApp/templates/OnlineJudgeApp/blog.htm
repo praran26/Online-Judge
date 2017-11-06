@@ -6,7 +6,7 @@
 		<div class="col-md-9">
 			<p>
 				<h3 style="color: #444">{{ title }}</h3>
-				<span>By <a href="{% url 'user' user_id %}">{{ user_id }}</a>, <span data-date='{{timestamp|date:"r"}}'></span></span> {% if request.user.is_superuser %}{% if not isImportant %}<a href="{% url 'makeImportant' blog_id %}">Make important</a>{% else %}<a href="{% url 'removeImportant' blog_id %}">Remove important</a>{% endif %}{% endif %}
+				<span>By <a href="{% url 'user' user_id %}">{{ user_id }}</a>, <span data-date='{{timestamp|date:"r"}}'></span></span> {% if request.user.is_superuser %}{% if not isImportant %}<a href="{% url 'makeImportant' blog_id %}"><i class="fa fa-star-o" aria-hidden="true" title="Show on dashboard"></i></a>{% else %}<a href="{% url 'removeImportant' blog_id %}"><i class="fa fa-star" aria-hidden="true" title="Remove from dashboard"></i></a>{% endif %}{% endif %} {% if request.user.is_superuser or request.user.username == user_id %}<a href="{% url 'edit_blog' blog_id %}"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit blog"></i></a> <a href="{% url 'delete_blog' blog_id %}"><i class="fa fa-trash" aria-hidden="true" title="Delete blog"></i></a>{% endif %}
 			</p>
 			<blockquote class="blockquote" style="font-size: 1rem;">
 				<span style="white-space:pre">{{ content }}</span>
@@ -19,9 +19,12 @@
 			<hr>
 			{% for comment in comments %}
 			<div class="row" style="margin-bottom: 8px">
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<a href="{% url 'user' comment.author %}">{{comment.author}}</a><br>
 					<small class="text-muted"><span data-date='{{comment.timestamp|date:"r"}}'></span></small>
+				</div>
+				<div class="col-md-1">
+					{% if request.user.is_superuser or request.user.username == comment.author %}<a href="{% url 'delete_comment' comment.id %}"><i class="fa fa-trash" aria-hidden="true" title="Delete comment"></i></a>{% endif %}
 				</div>
 				<div class="col-md-9">
 					{{comment.content}}
