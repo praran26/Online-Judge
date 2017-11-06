@@ -9,7 +9,6 @@ from django.dispatch import receiver
 class Profile(models.Model):
 	user=models.OneToOneField(User,on_delete=models.CASCADE)
 	rating=models.IntegerField(default=1500)
-	photo=models.ImageField(upload_to='users',null=True,blank=True)
 	def __str__(self):
 		return self.user.username
 
@@ -28,14 +27,6 @@ class Contest(models.Model):
 	duration=models.DurationField()
 	def __str__(self):
 		return str(self.contest_id)
-
-class Compiler(models.Model):
-	compiler_id=models.AutoField(primary_key=True)
-	lang=models.CharField(max_length=30)
-	version=models.CharField(max_length=30)
-	def __str__(self):
-		return " ".join((self.lang,self.version))
-
 
 class Blog(models.Model):
 	blog_id=models.AutoField(primary_key=True)
@@ -75,7 +66,6 @@ class Submission(models.Model):
 	timestamp=models.DateTimeField()
 	verdict=models.CharField(max_length=3)
 	prob_id=models.ForeignKey(Problem,on_delete=models.CASCADE)
-	compiler_id=models.ForeignKey(Compiler,on_delete=models.SET_NULL,null=True)
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
 
 

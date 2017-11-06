@@ -281,7 +281,6 @@ def check(folder,code_name,checker_name,mem,time):
 @login_required
 def submit(request,contest_id,problem_id):
 	if request.POST:
-		compiler=request.POST['compiler']
 		folder=""
 		for i in range(30):
 			folder+=random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvqxyz')

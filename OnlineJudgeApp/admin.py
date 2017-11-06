@@ -5,7 +5,6 @@ from .models import *
 
 admin.site.register(Profile)
 admin.site.register(Contest)
-admin.site.register(Compiler)
 admin.site.register(Blog)
 admin.site.register(Comment)
 admin.site.register(Problem)
