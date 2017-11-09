@@ -11,6 +11,19 @@
 			</div>
 		</div>
 		<div class="form-group row">
+			<label for="problem-tags" class="col-sm-4 col-form-label">Problem tags</label>
+			<div class="col-sm-8">
+				<select multiple class="form-control" id="problem-tags" name="problem-tags">
+					{% for tag in tags %}
+						<option value="{{ tag }}">{{ tag }}</option>
+					{% endfor %}
+				</select>
+				<small class="form-text text-muted">
+					For adding tags, click <a href="{% url 'add_tag' %}">here</a>
+				</small>
+			</div>
+		</div>
+		<div class="form-group row">
 			<label for="problem-legend" class="col-sm-4 col-form-label">Legend</label>
 			<div class="col-sm-8">
 				<textarea class="form-control" id="problem-legend" rows="5" required name="problem-legend"></textarea>

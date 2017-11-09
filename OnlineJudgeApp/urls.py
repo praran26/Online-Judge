@@ -37,4 +37,6 @@ urlpatterns = [
 	url(r'^update_blog/(?P<blog_id>\d+)/$',views.update_blog,name='update_blog'),
 	url(r'^delete_comment/(?P<comment_id>\d+)/$',views.delete_comment,name='delete_comment'),
 	url(r'^unused_problems/$',views.unused_problems,name='unused_problems'),
+	url(r'^add_tag/$',views.add_tag,name='add_tag'),
+	url(r'^post_tag/$',views.post_tag,name='post_tag'),
 ]

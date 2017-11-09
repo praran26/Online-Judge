@@ -121,7 +121,9 @@ def add_blog(request):
 
 @login_required
 def add_problem(request):
-	return render(request, 'OnlineJudgeApp/add_problem.htm',{})
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT * FROM OnlineJudgeApp_tag ORDER BY tag")
+		return render(request, 'OnlineJudgeApp/add_problem.htm',{"tags":list(i[0] for i in cursor.fetchall())})
 
 @login_required
 def add_contest(request):
@@ -206,9 +208,16 @@ def post_problem(request):
 		problem_tl=request.POST['problem-tl']
 		problem_ml=request.POST['problem-ml']
 		problem_checker=request.POST['problem-checker']
+		problem_tags=request.POST.getlist('problem-tags')
 		setter=str(request.user.id)
 		with connection.cursor() as cursor:
 			cursor.execute("INSERT INTO OnlineJudgeApp_problem (name,content,time_limit,mem_limit,addedToPractice,user_solved,checker,setter_id) VALUES ('%s','%s',%d,%d,'%s',%d,'%s','%s')"%(problem_title,problem_legend,int(problem_tl),int(problem_ml),0,0,problem_checker,setter))
+			cursor.execute("SELECT LAST_INSERT_ID()")
+			idx=cursor.fetchone()[0]
+			print idx
+			for tag in problem_tags:
+				print tag,type(tag)
+				cursor.execute("INSERT INTO OnlineJudgeApp_probtag (prob_id,tag_id) VALUES (%d,'%s')"%(int(idx),tag))
 	return HttpResponseRedirect(reverse('dashboard'))
 
 @login_required
@@ -447,3 +456,17 @@ def unused_problems(request):
 		headers=["prob_id","name","content","time_limit","mem_limit","addedToPractice","user_solved","checker","setter_id"]
 		res=[dict(zip(headers,i)) for i in cursor.fetchall()]
 		return render(request,"OnlineJudgeApp/unused_problems.htm",{"problems":res})
+
+@login_required
+def add_tag(request):
+	if request.user.is_superuser:
+		return render(request,"OnlineJudgeApp/add_tag.htm")
+	else:
+		raise PermissionDenied
+
+@login_required
+def post_tag(request):
+	if request.POST:
+		with connection.cursor() as cursor:
+			cursor.execute("INSERT INTO OnlineJudgeApp_tag VALUES ('%s')"%(request.POST['tag-name']))
+		return HttpResponseRedirect(reverse('add_problem'))
