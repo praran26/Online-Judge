@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db import connection
@@ -14,6 +14,7 @@ from django.core.mail import EmailMultiAlternatives
 import random,os,shutil,subprocess,resource,functools,hashlib
 from django.contrib.auth import authenticate, login as login_user
 from django.core.exceptions import PermissionDenied
+from base64 import b64encode,b64decode
 # Create your views here.
 @login_required
 def dashboard(request):
@@ -214,11 +215,27 @@ def post_problem(request):
 			cursor.execute("INSERT INTO OnlineJudgeApp_problem (name,content,time_limit,mem_limit,addedToPractice,user_solved,checker,setter_id) VALUES ('%s','%s',%d,%d,'%s',%d,'%s','%s')"%(problem_title,problem_legend,int(problem_tl),int(problem_ml),0,0,problem_checker,setter))
 			cursor.execute("SELECT LAST_INSERT_ID()")
 			idx=cursor.fetchone()[0]
-			print idx
 			for tag in problem_tags:
-				print tag,type(tag)
 				cursor.execute("INSERT INTO OnlineJudgeApp_probtag (prob_id,tag_id) VALUES (%d,'%s')"%(int(idx),tag))
-	return HttpResponseRedirect(reverse('dashboard'))
+			return HttpResponseRedirect(reverse('add_tests',kwargs={'problem_id':idx}))
+
+@login_required
+def add_tests(request,problem_id):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT setter_id FROM OnlineJudgeApp_problem WHERE prob_id='%s'"%(problem_id))
+		x=cursor.fetchone()
+		if not x or x[0]!=request.user.id:
+			raise PermissionDenied
+		return render(request,'OnlineJudgeApp/add_tests.htm',{'problem_id':problem_id})
+
+def post_tests(request):
+	if request.POST:
+		problem=request.POST['problem_id']
+		test_case=request.FILES['test_case'].read()
+		test_case=b64encode(test_case)
+		with connection.cursor() as cursor:
+			cursor.execute("INSERT INTO OnlineJudgeApp_test (data,problem_id) VALUES ('%s',%d)"%(test_case,int(problem)))
+		return HttpResponseRedirect(reverse('add_tests',kwargs={'problem_id':problem}))
 
 @login_required
 def post_contest(request):
@@ -331,7 +348,7 @@ def submit(request,contest_id,problem_id):
 			tests=cursor.fetchall()
 			for test in tests:
 				with open(os.path.join(files_path,"input.txt"),"w+") as f:
-					f.write(test[0])
+					f.write(b64decode(test[0]))
 				bad|=check(files_path,filename,"checker_"+os.path.splitext(filename)[0]+".cpp",int(ML),int(TL))
 				os.remove(os.path.join(BASE_PATH,folder,"input.txt"))
 			cursor.execute("INSERT INTO OnlineJudgeApp_submission (timestamp,verdict,prob_id_id,user_id) VALUES ('%s','%s',%d,%d);"%(str(datetime.now()),"AC" if not bad else "RJ",prob_id,int(request.user.id)))
@@ -433,6 +450,32 @@ def edit_blog(request,blog_id):
 			raise PermissionDenied
 
 @login_required
+def edit_problem(request,problem_id):
+	with connection.cursor() as cursor:
+		cursor.execute("SELECT setter_id FROM OnlineJudgeApp_problem WHERE prob_id=%d;"%(int(problem_id)))
+		if request.user.is_superuser or cursor.fetchone()[0]==request.user.id:
+			cursor.execute("SELECT * FROM OnlineJudgeApp_problem WHERE prob_id=%d;"%(int(problem_id)))
+			headers=["prob_id","name","content","time_limit","mem_limit","addedToPractice","user_solved","checker","setter_id"]
+			res=dict(zip(headers,cursor.fetchone()))
+			cursor.execute("SELECT * FROM OnlineJudgeApp_tag ORDER BY tag")
+			res["tags"]=list(i[0] for i in cursor.fetchall())
+			return render(request,"OnlineJudgeApp/edit_problem.htm",res)
+		else:
+			raise PermissionDenied
+@login_required
+def update_problem(request,problem_id):
+	if request.POST:
+		with connection.cursor() as cursor:
+			cursor.execute("UPDATE OnlineJudgeApp_problem SET name='%s', content='%s', time_limit=%d, mem_limit=%d,checker='%s' WHERE prob_id=%d;"%(
+				request.POST['problem-name'],
+				request.POST['problem-legend'],
+				int(request.POST['problem-tl']),
+				int(request.POST['problem-ml']),
+				request.POST['problem-checker'],
+				int(problem_id)
+				))
+		return HttpResponseRedirect(reverse('unused_problems'))
+@login_required
 def update_blog(request,blog_id):
 	if request.POST:
 		with connection.cursor() as cursor:
@@ -470,3 +513,33 @@ def post_tag(request):
 		with connection.cursor() as cursor:
 			cursor.execute("INSERT INTO OnlineJudgeApp_tag VALUES ('%s')"%(request.POST['tag-name']))
 		return HttpResponseRedirect(reverse('add_problem'))
+
+def checker_example(request):
+	return HttpResponse(r"""
+<title>Example checker</title>
+<pre>
+// Here is an example checker to check if program takes two integers as input and prints their sum
+// Take input from input.txt
+// Take ouput from output.txt
+// If output is incorrect, return non-zero exit code
+
+#include "bits/stdc++.h"
+
+using namespace std;
+
+int main(){
+	ifstream f_input;
+	ifstream f_output;
+	f_input.open("input.txt",ios::in);
+	int a,b;
+	f_input>>a>>b;
+	f_input.close();
+	f_output.open("output.txt",ios::in);
+	int c;
+	f_output>>c;
+	f_output.close();
+	assert(a+b==c);
+	return 0;
+}
+</pre>
+	""")

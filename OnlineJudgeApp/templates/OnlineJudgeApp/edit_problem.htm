@@ -1,13 +1,13 @@
 {% extends 'OnlineJudgeApp/base.htm' %}
-{% block title %}Add Problem{% endblock %}
+{% block title %}Edit Problem{% endblock %}
 {% block content %}
 <div class="container">
-	<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" method="POST" action="{% url 'post_problem' %}">
+	<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" method="POST" action="{% url 'update_problem' prob_id %}">
 		{% csrf_token %}
 		<div class="form-group row">
 			<label for="problem-name" class="col-sm-4 col-form-label">Name</label>
 			<div class="col-sm-8">
-				<input type="text" class="form-control" id="problem-name" required name="problem-name">
+				<input type="text" class="form-control" id="problem-name" required name="problem-name" value="{{name}}">
 			</div>
 		</div>
 		<div class="form-group row">
@@ -26,7 +26,7 @@
 		<div class="form-group row">
 			<label for="problem-legend" class="col-sm-4 col-form-label">Legend</label>
 			<div class="col-sm-8">
-				<textarea class="form-control" id="problem-legend" rows="5" required name="problem-legend"></textarea>
+				<textarea class="form-control" id="problem-legend" rows="5" required name="problem-legend">{{content}}</textarea>
 				<small class="form-text text-muted">
 					You may use LaTeX for rendering mathematical symbols.
 				</small>
@@ -35,7 +35,7 @@
 		<div class="form-group row">
 			<label for="problem-tl" class="col-sm-4 col-form-label">Time Limit</label>
 			<div class="col-sm-8">
-				<input type="number" class="form-control" id="problem-tl" required min="250" max="10000" name="problem-tl">
+				<input type="number" class="form-control" id="problem-tl" required min="250" max="10000" name="problem-tl" value="{{time_limit}}">
 				<small class="form-text text-muted">
 					(in milliseconds)
 				</small>
@@ -44,7 +44,7 @@
 		<div class="form-group row">
 			<label for="problem-ml" class="col-sm-4 col-form-label">Memory Limit</label>
 			<div class="col-sm-8">
-				<input type="number" class="form-control" id="problem-ml" required min="4" max="512" name="problem-ml">
+				<input type="number" class="form-control" id="problem-ml" required min="4" max="512" name="problem-ml" value="{{mem_limit}}">
 				<small class="form-text text-muted">
 					(in megabytes)
 				</small>
@@ -53,14 +53,15 @@
 		<div class="form-group row">
 			<label for="problem-checker" class="col-sm-4 col-form-label">Problem Checker</label>
 			<div class="col-sm-8">			
-				<textarea class="form-control" id="problem-checker" rows="20" required name="problem-checker"></textarea>
+				<textarea class="form-control" id="problem-checker" rows="20" required name="problem-checker">{{checker}}</textarea>
 				<small class="form-text text-muted">
 					See <a href="{% url 'checker_example' %}">example</a>.
 				</small>
 			</div>
 		</div>
+		Click <a href="{% url 'add_tests' prob_id %}">here</a> to add more test cases.
 		<div class="text-center">
-			<button type="submit" class="btn btn-primary">Add problem</button>		
+			<button type="submit" class="btn btn-primary">Update problem</button>
 		</div>
 	</form>
 </div>

@@ -1,0 +1,21 @@
+{% extends 'OnlineJudgeApp/base.htm' %}
+{% block title %}Add Tests{% endblock %}
+{% block content %}
+<div class="container">
+	<form style="width:70%;min-width: 384px;max-width: 768px;margin: auto;" method="POST" action="{% url 'post_tests' %}" enctype="multipart/form-data">
+		{% csrf_token %}
+		<center>
+		<input type="hidden" name="problem_id" value="{{ problem_id }}">	
+		</center>
+		<div class="form-group">
+			<label class="custom-file">
+				<input type="file" id="file" class="custom-file-input" name="test_case">
+				<span class="custom-file-control"></span>
+			</label>
+		</div>
+		<div class="text-center">
+			<button type="submit" class="btn btn-primary">Add test</button>
+		</div>
+	</form>
+</div>
+{% endblock %}

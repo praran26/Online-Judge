@@ -26,8 +26,8 @@
 				<td>{{prob.name}}</td>
 				<td>{{prob.time_limit}} milliseconds</td>
 				<td>{{prob.mem_limit}} megabytes</td>
-				
 				<td><a href="#problem{{prob.prob_id}}" data-toggle="modal" data-target="#problem{{prob.prob_id}}">Preview</a></td>
+				<td><a href="{% url 'edit_problem' prob.prob_id %}">Edit</td>
 			</tr>
 			{% endfor %}	
 		</tbody>

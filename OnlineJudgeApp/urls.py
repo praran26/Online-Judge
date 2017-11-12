@@ -37,6 +37,11 @@ urlpatterns = [
 	url(r'^update_blog/(?P<blog_id>\d+)/$',views.update_blog,name='update_blog'),
 	url(r'^delete_comment/(?P<comment_id>\d+)/$',views.delete_comment,name='delete_comment'),
 	url(r'^unused_problems/$',views.unused_problems,name='unused_problems'),
+	url(r'^edit_problem/(?P<problem_id>\d+)/$',views.edit_problem,name='edit_problem'),
+	url(r'^update_problem/(?P<problem_id>\d+)/$',views.update_problem,name='update_problem'),
 	url(r'^add_tag/$',views.add_tag,name='add_tag'),
 	url(r'^post_tag/$',views.post_tag,name='post_tag'),
+	url(r'^add_tests/(?P<problem_id>\d+)/$',views.add_tests,name='add_tests'),
+	url(r'^post_tests/$',views.post_tests,name='post_tests'),
+	url(r'^checker_example/$',views.checker_example,name='checker_example')
 ]

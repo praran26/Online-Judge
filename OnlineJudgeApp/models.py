@@ -71,7 +71,7 @@ class Submission(models.Model):
 
 class Test(models.Model):
 	test_id=models.AutoField(primary_key=True)
-	data=models.TextField()
+	data=models.BinaryField()
 	problem=models.ForeignKey(Problem,on_delete=models.CASCADE)
 
 class Tag(models.Model):
