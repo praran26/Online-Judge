@@ -474,6 +474,10 @@ def update_problem(request,problem_id):
 				request.POST['problem-checker'],
 				int(problem_id)
 				))
+			cursor.execute("DELETE FROM OnlineJudgeApp_probtag WHERE prob_id=%d;"%(int(problem_id)))
+			problem_tags=request.POST.getlist('problem-tags')
+			for tag in problem_tags:
+				cursor.execute("INSERT INTO OnlineJudgeApp_probtag (prob_id,tag_id) VALUES (%d,'%s')"%(int(idx),tag))
 		return HttpResponseRedirect(reverse('unused_problems'))
 @login_required
 def update_blog(request,blog_id):
