@@ -11,7 +11,6 @@ urlpatterns = [
 	url(r'^settings/$',views.settings,name='settings'),
 	url(r'^logout/$',auth_views.logout,{'next_page': '/'},name='logout'),
 	url(r'^contests/(?P<contest_id>\d+)/$',views.contest,name='contest'),
-	url(r'^contests/(?P<contest_id>\d+)/standings/$',views.standings,name='standings'),
 	url(r'^contests/(?P<contest_id>\d+)/problems/(?P<problem_id>\w)/$',views.problems,name='problems'),
 	url(r'^add/blog/$',views.add_blog,name='add_blog'),
 	url(r'^add/problem/$',views.add_problem,name='add_problem'),

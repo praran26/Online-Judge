@@ -90,14 +90,6 @@ class ProbContest(models.Model):
 	contest=models.ForeignKey(Contest,on_delete=models.CASCADE)
 	idx=models.CharField(max_length=1)
 
-class Participation(models.Model):
-	class Meta:
-		unique_together=(('contest','user'))
-	contest=models.ForeignKey(Contest,on_delete=models.CASCADE)
-	user=models.ForeignKey(User,on_delete=models.CASCADE)
-	timetaken=models.IntegerField()
-	rating_change=models.IntegerField()
-
 class regnConfirm(models.Model):
 	regn_id=models.AutoField(primary_key=True)
 	user=models.ForeignKey(User,on_delete=models.CASCADE)

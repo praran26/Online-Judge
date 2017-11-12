@@ -76,10 +76,6 @@ def logout(request):
 	return HttpResponseRedirect(reverse('login'))
 
 @login_required
-def standings(request,contest_id):
-	return render(request, 'OnlineJudgeApp/standings.htm',{})
-
-@login_required
 def problems(request,contest_id,problem_id):
 	with connection.cursor() as cursor:
 		cursor.execute("SELECT start_time FROM OnlineJudgeApp_contest WHERE contest_id=%d;"%(int(contest_id)))
