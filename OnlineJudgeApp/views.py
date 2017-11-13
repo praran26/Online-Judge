@@ -15,6 +15,7 @@ import random,os,shutil,subprocess,resource,functools,hashlib
 from django.contrib.auth import authenticate, login as login_user
 from django.core.exceptions import PermissionDenied
 from base64 import b64encode,b64decode
+from collections import defaultdict
 # Create your views here.
 @login_required
 def dashboard(request):
@@ -34,9 +35,9 @@ def contests(request):
 		cursor.execute("SELECT * FROM OnlineJudgeApp_contest ORDER BY start_time")
 		res=cursor.fetchall()
 		temp=dict()
-		temp['pastContests']=[dict(zip(["contest_id","start_time","duration"],i)) for i in res if i[1]+timedelta(microseconds=i[2])<datetime.now()]
-		temp['presentContests']=[dict(zip(["contest_id","start_time","duration"],i)) for i in res if i[1]+timedelta(microseconds=i[2])>=datetime.now() and i[1]<=datetime.now()]
-		temp['futureContests']=[dict(zip(["contest_id","start_time","duration"],i)) for i in res if i[1]>datetime.now()]
+		temp['pastContests']=[dict(zip(["contest_id","start_time","duration","ratingUpdated"],i)) for i in res if i[1]+timedelta(microseconds=i[2])<datetime.now()]
+		temp['presentContests']=[dict(zip(["contest_id","start_time","duration","ratingUpdated"],i)) for i in res if i[1]+timedelta(microseconds=i[2])>=datetime.now() and i[1]<=datetime.now()]
+		temp['futureContests']=[dict(zip(["contest_id","start_time","duration","ratingUpdated"],i)) for i in res if i[1]>datetime.now()]
 		for i in temp['pastContests']:
 			i["duration"]=str(timedelta(microseconds=i["duration"]))
 		for i in temp['presentContests']:
@@ -347,6 +348,9 @@ def submit(request,contest_id,problem_id):
 					f.write(b64decode(test[0]))
 				bad|=check(files_path,filename,"checker_"+os.path.splitext(filename)[0]+".cpp",int(ML),int(TL))
 				os.remove(os.path.join(BASE_PATH,folder,"input.txt"))
+			cursor.execute("SELECT COUNT(*) FROM OnlineJudgeApp_submission WHERE verdict='AC' AND prob_id_id=%d AND user_id=%d"%(prob_id,int(request.user.id)))
+			if cursor.fetchone()[0]==0 and not bad:
+				cursor.execute("UPDATE OnlineJudgeApp_problem SET user_solved=user_solved+1 WHERE prob_id=%d"%(prob_id))
 			cursor.execute("INSERT INTO OnlineJudgeApp_submission (timestamp,verdict,prob_id_id,user_id) VALUES ('%s','%s',%d,%d);"%(str(datetime.now()),"AC" if not bad else "RJ",prob_id,int(request.user.id)))
 		if os.path.isdir(os.path.join(BASE_PATH,folder)):
 			shutil.rmtree(os.path.join(BASE_PATH,folder))
@@ -513,6 +517,76 @@ def post_tag(request):
 		with connection.cursor() as cursor:
 			cursor.execute("INSERT INTO OnlineJudgeApp_tag VALUES ('%s')"%(request.POST['tag-name']))
 		return HttpResponseRedirect(reverse('add_problem'))
+
+def get_required_rating(user,cur_ratings,midRank):
+	minval=1
+	maxval=8000
+	while maxval-minval>1:
+		mid=minval+(maxval-minval)/2
+		seed=1
+		for i in cur_ratings:
+			if i!=user:
+				seed+=1.0/(1+10**((mid-cur_ratings[i])/400.0))
+		if seed<midRank:
+			maxval=mid
+		else:
+			minval=mid
+	return minval
+def please_update_ratings(users,ranks,cur_ratings):
+	n=len(users)
+	seeds=[1]*n
+	for i in range(n):
+		for j in range(n):
+			if i==j:
+				continue
+			seeds[i]+=1.0/(1+10**((cur_ratings[users[i]]-cur_ratings[users[j]])/400.0))
+	m=[0]*n
+	for i in range(n):
+		m[i]=(ranks[users[i]]*seeds[i])**0.5
+	newRating=[0]*n
+	for i in range(n):
+		needRating=get_required_rating(users[i],cur_ratings,m[i])
+		newRating[i]=(cur_ratings[users[i]]+needRating)/2
+	with connection.cursor() as cursor:
+		for i in range(n):
+			cursor.execute("UPDATE OnlineJudgeApp_profile SET rating=%d WHERE user_id=%d;"%(newRating[i],int(users[i])))
+@login_required
+def rating_update(request,contest_id):
+	if request.user.is_superuser:
+		with connection.cursor() as cursor:
+			cursor.execute("""SELECT a.user_id,a.prob_id_id,MIN(a.timestamp),TIMESTAMPDIFF(MINUTE,c.start_time,MIN(a.timestamp))
+				FROM OnlineJudgeApp_submission AS a INNER JOIN OnlineJudgeApp_problem AS b ON (a.prob_id_id=b.prob_id) INNER JOIN OnlineJudgeApp_probcontest AS d ON (d.problem_id=b.prob_id) INNER JOIN OnlineJudgeApp_contest AS c ON (d.contest_id=c.contest_id)
+				WHERE a.verdict='AC' AND a.timestamp>c.start_time AND TIMESTAMPDIFF(SECOND,c.start_time,a.timestamp)*1000000<c.duration AND c.contest_id=%s
+				GROUP BY a.user_id,a.prob_id_id
+				ORDER BY MIN(a.timestamp)
+				"""%(contest_id))
+			solve_count=defaultdict(lambda:0,{})
+			solve_time=defaultdict(lambda:0,{})
+			subs=cursor.fetchall()
+			for sub in subs:
+				sub_user=sub[0]
+				sub_prob=sub[1]
+				sub_timetaken=sub[3]
+				solve_count[sub_user]+=1
+				solve_time[sub_user]+=sub_timetaken
+				cursor.execute("""SELECT COUNT(*)
+					FROM OnlineJudgeApp_submission AS a INNER JOIN OnlineJudgeApp_problem AS b ON (a.prob_id_id=b.prob_id) INNER JOIN OnlineJudgeApp_probcontest AS d ON (d.problem_id=b.prob_id) INNER JOIN OnlineJudgeApp_contest AS c ON (d.contest_id=c.contest_id)
+					WHERE a.verdict='RJ' AND a.timestamp>c.start_time AND a.timestamp<'%s' AND c.contest_id=%s AND b.prob_id=%s AND a.user_id=%s
+					"""%(sub[2],contest_id,sub_prob,sub_user))
+				solve_time[sub_user]+=20*int(cursor.fetchone()[0])
+			users=sorted(solve_count.keys(),key=lambda x:(-solve_count[x],solve_time[x]))
+			ratings=defaultdict(lambda:1500,{})
+			ranks=defaultdict(lambda:0,{})
+			for rank,user in enumerate(users):
+				cursor.execute("SELECT rating FROM OnlineJudgeApp_profile WHERE user_id=%d;"%int(user))
+				ratings[user]=cursor.fetchone()[0]
+				ranks[user]=rank+1
+			please_update_ratings(users,ranks,ratings)
+			cursor.execute("UPDATE OnlineJudgeApp_contest SET ratingUpdated=1 WHERE contest_id=%d;"%(int(contest_id)))
+			cursor.execute("UPDATE OnlineJudgeApp_problem a SET a.addedToPractice=1 WHERE EXISTS (SELECT * FROM OnlineJudgeApp_probcontest b WHERE b.problem_id=a.prob_id AND b.contest_id=%d);"%(int(contest_id)))
+		return HttpResponseRedirect(reverse('contests'))
+	else:
+		raise PermissionDenied
 
 def checker_example(request):
 	return HttpResponse(r"""

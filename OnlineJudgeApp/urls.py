@@ -42,5 +42,6 @@ urlpatterns = [
 	url(r'^post_tag/$',views.post_tag,name='post_tag'),
 	url(r'^add_tests/(?P<problem_id>\d+)/$',views.add_tests,name='add_tests'),
 	url(r'^post_tests/$',views.post_tests,name='post_tests'),
-	url(r'^checker_example/$',views.checker_example,name='checker_example')
+	url(r'^checker_example/$',views.checker_example,name='checker_example'),
+	url(r'^update_rating/(?P<contest_id>\d+)/$',views.rating_update,name='update_rating')
 ]

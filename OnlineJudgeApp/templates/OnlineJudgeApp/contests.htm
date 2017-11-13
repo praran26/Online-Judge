@@ -2,6 +2,7 @@
 {% block title %}Contests{% endblock %}
 {% block content %}
 <div class="container">
+	{% if presentContests or futureContests %}
 	<table style="width:100%">
 		<thead>
 			<tr>
@@ -24,7 +25,9 @@
 						<div class="col-md-3">
 							<strong>Registration</strong>
 						</div>
-						{% for contest in presentContests %}
+					</div>
+					{% for contest in presentContests %}
+					<div class="row"  style="padding-left: 10%;margin-bottom: 16px;">
 						<div class="col-md-3">
 							Round {{contest.contest_id}}
 						</div>
@@ -37,8 +40,10 @@
 						<div class="col-md-3">
 							<a href="{% url 'contest' contest.contest_id %}">Enter</a>
 						</div>
-						{% endfor %}
-						{% for contest in futureContests %}
+					</div>
+					{% endfor %}
+					{% for contest in futureContests %}
+					<div class="row"  style="padding-left: 10%;margin-bottom: 16px;">
 						<div class="col-md-3">
 							Round {{contest.contest_id}}
 						</div>
@@ -50,12 +55,14 @@
 						</div>
 						<div class="col-md-3">
 						</div>
-						{% endfor %}
+
 					</div>
+					{% endfor %}
 				</td>			
 			</tr>
 		</tbody>
 	</table>
+	{% endif %}
 	{% if pastContests %}
 	<table style="width:100%">
 		<thead>
@@ -74,12 +81,11 @@
 							<strong>Start</strong>
 						</div>
 						<div class="col-md-3">
-							<strong>End</strong>
+							<strong>Duration</strong>
 						</div>
-						<div class="col-md-3">
-							<strong>Standings</strong>
-						</div>
-						{% for contest in pastContests %}
+					</div>
+					{% for contest in pastContests %}
+					<div class="row"  style="padding-left: 10%;margin-bottom: 16px;">
 						<div class="col-md-3">
 							Round {{contest.contest_id}}
 						</div>
@@ -89,8 +95,17 @@
 						<div class="col-md-3">
 							{{contest.duration}}
 						</div>
-						{% endfor %}
+						{% if request.user.is_superuser %}
+						<div>
+						{% if contest.ratingUpdated %}
+							Rating updated!
+						{% else %}
+							<a href="{% url 'update_rating' contest.contest_id %}">Update ratings</a>
+						{% endif %}
+						</div>
+						{% endif %}
 					</div>
+					{% endfor %}
 				</td>			
 			</tr>
 		</tbody>
