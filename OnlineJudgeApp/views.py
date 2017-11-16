@@ -25,7 +25,7 @@ def dashboard(request):
 		temp['importantBlogs']=[dict(zip(["blog_id","title","content","username","timestamp"],i)) for i in cursor.fetchall()]
 		cursor.execute("SELECT a.blog_id,a.title,b.username FROM OnlineJudgeApp_blog a,auth_user b WHERE b.id=a.user_id ORDER BY a.timestamp DESC LIMIT 10")
 		temp['recentBlogs']=[dict(zip(["blog_id","title","username"],i)) for i in cursor.fetchall()]
-		cursor.execute("SELECT a.username,b.rating FROM auth_user a, OnlineJudgeApp_profile b WHERE a.id=b.user_id ORDER BY b.rating desc LIMIT 5")
+		cursor.execute("SELECT a.username,b.rating FROM auth_user a, OnlineJudgeApp_profile b WHERE a.id=b.user_id AND b.isRated ORDER BY b.rating desc LIMIT 5")
 		temp['topRated']=[dict(zip(["username","rating"],i)) for i in cursor.fetchall()]
 	return render(request, 'OnlineJudgeApp/dashboard.htm',temp)
 
@@ -134,9 +134,9 @@ def add_contest(request):
 @login_required
 def user(request,user_id):
 	with connection.cursor() as cursor:
-		cursor.execute("SELECT b.id,b.username,a.rating,b.email,b.first_name,b.last_name,b.date_joined,b.is_active,b.is_superuser FROM OnlineJudgeApp_profile a,auth_user b WHERE a.user_id=b.id AND b.username='%s'"%(user_id))
+		cursor.execute("SELECT b.id,b.username,a.rating,b.email,b.first_name,b.last_name,b.date_joined,b.is_active,b.is_superuser,a.isRated FROM OnlineJudgeApp_profile a,auth_user b WHERE a.user_id=b.id AND b.username='%s'"%(user_id))
 		res=cursor.fetchone()
-		headers=["id","username","rating","email","first_name","last_name","date_joined","is_active","is_superuser"]
+		headers=["id","username","rating","email","first_name","last_name","date_joined","is_active","is_superuser","is_rated"]
 		temp=dict(zip(headers,res))
 		cursor.execute("SELECT blog_id,title FROM OnlineJudgeApp_blog WHERE user_id=%d;"%(int(temp["id"])))
 		temp["blogs"]=[dict(zip(["blog_id","title"],i)) for i in cursor.fetchall()]
@@ -178,7 +178,7 @@ def blog(request,blog_id):
 				comments[idx][-1]=str(cursor.fetchone()[0])
 			cursor.execute("SELECT a.blog_id,a.title,b.username FROM OnlineJudgeApp_blog a,auth_user b WHERE b.id=a.user_id ORDER BY a.timestamp DESC LIMIT 10")
 			temp['recentBlogs']=[dict(zip(["blog_id","title","username"],i)) for i in cursor.fetchall()]
-			cursor.execute("SELECT a.username,b.rating FROM auth_user a, OnlineJudgeApp_profile b WHERE a.id=b.user_id ORDER BY b.rating desc LIMIT 5")
+			cursor.execute("SELECT a.username,b.rating FROM auth_user a, OnlineJudgeApp_profile b WHERE a.id=b.user_id AND b.isRated ORDER BY b.rating desc LIMIT 5")
 			temp['topRated']=[dict(zip(["username","rating"],i)) for i in cursor.fetchall()]
 		comments=map(tuple,comments)
 		headers=["id","content","timestamp","blog","author"]
@@ -549,7 +549,8 @@ def please_update_ratings(users,ranks,cur_ratings):
 		newRating[i]=(cur_ratings[users[i]]+needRating)/2
 	with connection.cursor() as cursor:
 		for i in range(n):
-			cursor.execute("UPDATE OnlineJudgeApp_profile SET rating=%d WHERE user_id=%d;"%(newRating[i],int(users[i])))
+			cursor.execute("UPDATE OnlineJudgeApp_profile SET rating=%d,isRated=1 WHERE user_id=%d;"%(newRating[i],int(users[i])))
+
 @login_required
 def rating_update(request,contest_id):
 	if request.user.is_superuser:

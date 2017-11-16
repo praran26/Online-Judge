@@ -9,6 +9,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
 	user=models.OneToOneField(User,on_delete=models.CASCADE)
 	rating=models.IntegerField(default=1500)
+	isRated=models.BooleanField(default=False)
 	def __str__(self):
 		return self.user.username
 
