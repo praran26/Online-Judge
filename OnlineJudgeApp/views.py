@@ -284,7 +284,7 @@ def remove_important(request,blog_id):
 	return HttpResponseRedirect(reverse('blog',kwargs={'blog_id':blog_id}))
 
 def check(folder,code_name,checker_name,mem,time):
-	p=subprocess.Popen(["g++",code_name,"-O2","-o","code","-std=c++14"],cwd=folder)
+	p=subprocess.Popen(["g++",code_name,"-O2","-o","code","-std=c++11"],cwd=folder)
 	ret_code=p.wait()
 	if ret_code<0:
 		return 1
