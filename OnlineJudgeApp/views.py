@@ -468,7 +468,7 @@ def update_problem(request,problem_id):
 		with connection.cursor() as cursor:
 			cursor.execute("UPDATE OnlineJudgeApp_problem SET name='%s', content='%s', time_limit=%d, mem_limit=%d,checker='%s' WHERE prob_id=%d;"%(
 				request.POST['problem-name'],
-				request.POST['problem-legend'],
+				request.POST['problem-legend'].replace('\\','\\\\'),
 				int(request.POST['problem-tl']),
 				int(request.POST['problem-ml']),
 				request.POST['problem-checker'],

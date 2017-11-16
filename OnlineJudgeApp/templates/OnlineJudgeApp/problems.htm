@@ -9,7 +9,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8">
-			{{content}}
+			<span style="white-space: pre"></span>{{content}}
 		</div>
 		<div class="col-md-4">
 			<form style="width:100%;margin: auto;" method="POST" action="{% url 'submit' contest_id=contest_id problem_id=idx %}" enctype="multipart/form-data">
@@ -19,7 +19,7 @@
 						<option value="1">GNU GCC 5.1.0</option>
 						<option value="2">GNU GCC C11 5.1.0</option>
 						<option value="3">GNU G++ 5.1.0</option>
-						<option value="4">GNU G++14 6.2.0</option>
+						<option value="4">GNU G++11 6.2.0</option>
 						<option value="5">Go 1.7.3</option>
 						<option value="6">Java 1.8.0_112</option>
 						<option value="7">Free Pascal 2.6.4</option>
