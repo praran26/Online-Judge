@@ -283,22 +283,34 @@ def remove_important(request,blog_id):
 		cursor.execute("UPDATE OnlineJudgeApp_blog SET isImportant=0 WHERE blog_id=%d;"%(int(blog_id)))
 	return HttpResponseRedirect(reverse('blog',kwargs={'blog_id':blog_id}))
 
-def check(folder,code_name,checker_name,mem,time):
+def checkcpp(folder,code_name,checker_name,mem,time):
 	p=subprocess.Popen(["g++",code_name,"-O2","-o","code","-std=c++11"],cwd=folder)
 	ret_code=p.wait()
-	if ret_code<0:
+	if ret_code:
 		return 1
-	p=subprocess.Popen(["./code"],cwd=folder,stdout=open(folder+"/output.txt","w+"),stdin=open(folder+"/input.txt","r"),shell=True)
-	ret_code=p.wait()
-	if ret_code<0:
+	p=subprocess.call("timeout "+str(time/1000.0)+" "+folder+"/code < "+folder+"/input.txt > "+folder+"/output.txt",shell=True)
+	if p:
 		return 1
 	p=subprocess.Popen(["g++", "-O2",checker_name,"-o","checker","-std=c++11"],cwd=folder)
 	ret_code=p.wait()
-	if ret_code<0:
+	if ret_code:
 		return 1
 	p=subprocess.Popen("./checker",cwd=folder)
 	ret_code=p.wait()
-	if ret_code<0:
+	if ret_code:
+		return 1
+	return 0
+def checkpy(folder,code_name,checker_name,mem,time):
+	p=subprocess.call("timeout "+str(time/1000.0)+" python2.7 "+folder+"/"+code_name+" < "+folder+"/input.txt > "+folder+"/output.txt",shell=True)
+	if p:
+		return 1
+	p=subprocess.Popen(["g++", "-O2",checker_name,"-o","checker","-std=c++11"],cwd=folder)
+	ret_code=p.wait()
+	if ret_code:
+		return 1
+	p=subprocess.Popen("./checker",cwd=folder)
+	ret_code=p.wait()
+	if ret_code:
 		return 1
 	return 0
 @login_required
@@ -346,7 +358,10 @@ def submit(request,contest_id,problem_id):
 			for test in tests:
 				with open(os.path.join(files_path,"input.txt"),"w+") as f:
 					f.write(b64decode(test[0]))
-				bad|=check(files_path,filename,"checker_"+os.path.splitext(filename)[0]+".cpp",int(ML),int(TL))
+				if request.POST["compiler"]=="1":
+					bad|=checkcpp(files_path,filename,"checker_"+os.path.splitext(filename)[0]+".cpp",int(ML),int(TL))
+				else:
+					bad|=checkpy(files_path,filename,"checker_"+os.path.splitext(filename)[0]+".cpp",int(ML),int(TL))
 				os.remove(os.path.join(BASE_PATH,folder,"input.txt"))
 			cursor.execute("SELECT COUNT(*) FROM OnlineJudgeApp_submission WHERE verdict='AC' AND prob_id_id=%d AND user_id=%d"%(prob_id,int(request.user.id)))
 			if cursor.fetchone()[0]==0 and not bad:
