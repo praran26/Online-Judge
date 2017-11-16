@@ -284,11 +284,12 @@ def remove_important(request,blog_id):
 	return HttpResponseRedirect(reverse('blog',kwargs={'blog_id':blog_id}))
 
 def checkcpp(folder,code_name,checker_name,mem,time):
+	print mem
 	p=subprocess.Popen(["g++",code_name,"-O2","-o","code","-std=c++11"],cwd=folder)
 	ret_code=p.wait()
 	if ret_code:
 		return 1
-	p=subprocess.call("timeout "+str(time/1000.0)+" "+folder+"/code < "+folder+"/input.txt > "+folder+"/output.txt",shell=True)
+	p=subprocess.call("ulimit -v "+str(mem*1024)+" && timeout "+str(time/1000.0)+" "+folder+"/code < "+folder+"/input.txt > "+folder+"/output.txt",shell=True)
 	if p:
 		return 1
 	p=subprocess.Popen(["g++", "-O2",checker_name,"-o","checker","-std=c++11"],cwd=folder)
@@ -301,7 +302,8 @@ def checkcpp(folder,code_name,checker_name,mem,time):
 		return 1
 	return 0
 def checkpy(folder,code_name,checker_name,mem,time):
-	p=subprocess.call("timeout "+str(time/1000.0)+" python2.7 "+folder+"/"+code_name+" < "+folder+"/input.txt > "+folder+"/output.txt",shell=True)
+	print mem
+	p=subprocess.call("ulimit -v "+str(mem*1024)+" && timeout "+str(time/1000.0)+" python2.7 "+folder+"/"+code_name+" < "+folder+"/input.txt > "+folder+"/output.txt",shell=True)
 	if p:
 		return 1
 	p=subprocess.Popen(["g++", "-O2",checker_name,"-o","checker","-std=c++11"],cwd=folder)
